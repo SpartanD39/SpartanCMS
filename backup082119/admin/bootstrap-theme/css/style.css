@@ -1,0 +1,55 @@
+body,html {
+	background-color: #343A40;
+	height: 100%! important;
+}
+
+.contentarea {
+	margin-top: 3%;
+	color: #CACBD0;
+}
+
+@media (min-width: 769px) {
+	.footer {
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		text-align: center;
+		padding: 1%;
+	}
+}
+
+@media (max-width: 768px) {
+	.footer {
+		position: flex;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		text-align: center;
+		padding: 1%;
+	}
+}
+
+.pageLink {
+	color: #CACBD0;
+	text-decoration: underline;
+}
+
+.pageLink:hover {
+	text-decoration: none;
+	color: rgba(255,255,255,.5);
+}
+
+.loginFormError {
+    background-color: #818c98;
+    color: #000000;
+}
+
+#modLineContainer {
+	margin-top: 3%;
+	text-align: center;
+}
+
+#calendarContent {
+	margin-top: 3%;
+}

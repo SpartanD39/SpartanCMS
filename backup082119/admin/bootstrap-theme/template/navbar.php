@@ -1,0 +1,29 @@
+<?php 
+include_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . "../../configuration.php");
+
+?>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" href="#">RSF</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapseMenu" aria-controls="collapseMenu" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+		
+			<div class="collapse navbar-collapse" id="collapseMenu">
+				<ul class="navbar-nav">
+					
+					<li class="nav-item">
+						<a class="nav-link" href="/ravensec">Home</a>
+					</li>
+					
+					<li class="nav-item">
+						<a class="nav-link" href="/ravensec/getmodline.php">ModLine Generator</a>
+					</li>
+					
+					<li class="nav-item">
+						<a class="nav-link" href="/ravensec/addModpack.php">Add new modpack</a>
+					</li>
+					
+				</ul>
+			</div>
+		
+		</nav>
