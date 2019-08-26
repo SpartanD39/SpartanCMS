@@ -36,6 +36,7 @@ if(isset($_POST["addPost"])) {
 </div>
 
 <div class="form-group">
+	<label for="post_cat_id">Post Category:</label>
 	<select class="form-control" id="post_cat_id" name="post_cat_id">
 		<?php
 		$categories = get_categories();

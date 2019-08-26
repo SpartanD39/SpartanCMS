@@ -29,11 +29,17 @@
                             <ul class="list-unstyled">
 								<?php
 									$sidebarCats = get_categories();
-									forEach($sidebarCats as $sidebarCat) {
+									if(empty($sidebarCats)) {
 										echo "<li>";
-										echo "<a href=\"index.php?id={$sidebarCat["cat_id"]}&view=category\">{$sidebarCat["cat_name"]}</a>";
+										echo "No categories yet...";
 										echo "</li>";
-									}
+									} else {
+										forEach($sidebarCats as $sidebarCat) {
+											echo "<li>";
+											echo "<a href=\"index.php?id={$sidebarCat["cat_id"]}&view=category\">{$sidebarCat["cat_name"]}</a>";
+											echo "</li>";
+										}										
+									}									
 								?>
                             </ul>
                         </div>

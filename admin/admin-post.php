@@ -82,7 +82,7 @@ if(isset($_GET['action']) && !empty($_GET['action'])) {
 			<td><img src="../uploads/images/{$post["post_image"]}" alt="" class="img-thumbnail" width="120"></td>
 			<td>{$post["post_status"]}</td>
 			<td>{$post["post_date"]}</td>
-            <td><a href="../index.php?id={$post["post_id"]}&action=view" target="_blank">View</a></td>
+            <td><a href="../index.php?id={$post["post_id"]}&view=post" target="_blank">View</a></td>
             <td><a href="admin-post.php?id={$post["post_id"]}&action=edit">Edit</a></td>
             <td><a href="admin-post.php?id={$post["post_id"]}&action=delete">Delete</a></td>
         </tr>

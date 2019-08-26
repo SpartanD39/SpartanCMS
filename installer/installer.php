@@ -32,7 +32,7 @@ $DB_PASS = clean_input($_POST["dbPass"]);
 $DB_NAME = clean_input($_POST["dbName"]);
 $DB_HOST = clean_input($_POST["dbHost"]);
 $conn = new mysqli($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
-//$_CREATE_TABLES_SQL = 'START TRANSACTION';
+$_CREATE_TABLES_SQL = 'START TRANSACTION';
 
 $_CREATE_TABLES_SQL = 'CREATE TABLE categories (`cat_id` INT(3) NOT NULL,`cat_name` VARCHAR(128) NOT NULL) ENGINE=MyISAM;';
 
@@ -52,7 +52,7 @@ $_CREATE_TABLES_SQL .= 'ALTER TABLE comments MODIFY `comment_id` INT(3) NOT NULL
 
 $_CREATE_TABLES_SQL .= 'ALTER TABLE posts MODIFY `post_id` int(3) NOT NULL AUTO_INCREMENT;';
 
-//$_CREATE_TABLES_SQL .= 'COMMIT;';
+$_CREATE_TABLES_SQL .= 'COMMIT;';
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
