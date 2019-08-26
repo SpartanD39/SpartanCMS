@@ -1,8 +1,10 @@
 <?php
-if(!file_exists("includes/db-config.php")) {
+define("CONFIGDIR", dirname(__FILE__));
+define("DS", DIRECTORY_SEPARATOR);
+if(!file_exists(CONFIGDIR . DS . "db-config.php")) {
 	header("Location: /installer/installer.php");
 }
-include("db-config.php");
+include(CONFIGDIR . DS . "db-config.php");
 
 function clean_input($data) {
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
