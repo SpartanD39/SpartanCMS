@@ -118,6 +118,9 @@ EOH;
 			<div class="alert alert-danger" role="alert">
 				{$conn->error}
 			</div>
+			<div class="alert alert-danger" role="alert">
+				<a href="/installer/installer.php">Click here after you fix the issue,</a> and retry the installer.
+			</div>
 		</div>
 		
 		<div class="col-md-3">
