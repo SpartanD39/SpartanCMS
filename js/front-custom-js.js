@@ -9,6 +9,7 @@ $("#addcomment").submit(function(event){
 	posting.done(function(data) {
 		var content = $(data);
 		$("#submitstatus").html(content);
+		$form.find("input[type=text], input[type=email], textarea").val("");
 	});
 
 });

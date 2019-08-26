@@ -45,12 +45,12 @@ function add_post_comment($commentdata) {
 	$comment["date"] = date('d-m-y H:i');
 	$comment["comment_author"] = clean_input($comment["comment_author"]);
 	$comment["comment_email"] = clean_input($comment["comment_email"]);
+	$comment["comment_author_ip"] = clean_input(get_client_ip());
 	$comment["comment_content"] = clean_input($comment["comment_content"]);
 	$comment["status"] = "pending";
-	//$sql = "INSERT INTO comments (comment_post_id, comment_date, comment_author, comment_email, comment_content, comment_status) VALUES ('{$comment["post_id"]}','{$comment["date"]}','{$comment["comment_author"]}','{$comment["comment_email"]}','{$comment["comment_content"]}','{$comment["status"]}')";
 	
-	$stmt = $conn->prepare("INSERT INTO comments (comment_post_id, comment_date, comment_author, comment_email, comment_content,comment_status) VALUES (?, ?, ?, ?, ?, ?)");
-	$stmt->bind_param("iissss", $comment["post_id"], $comment["date"], $comment["comment_author"], $comment["comment_email"], $comment["comment_content"], $comment["status"] );
+	$stmt = $conn->prepare("INSERT INTO comments (comment_post_id, comment_date, comment_author, comment_email, comment_author_ip, comment_content,comment_status) VALUES (?, ?, ?, ?, ?, ?, ?)");
+	$stmt->bind_param("iisssss", $comment["post_id"], $comment["date"], $comment["comment_author"], $comment["comment_email"], $comment["comment_author_ip"], $comment["comment_content"], $comment["status"] );
 	
 	//$result = $conn->query($sql);
 	if($stmt->execute() === TRUE) {
