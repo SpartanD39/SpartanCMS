@@ -17,7 +17,6 @@
 		<div class="container-fluid">
 
 <?php
-
 if(isset($_GET["removeInstaller"]) && $_GET["removeInstaller"] == "true") {
 	header("Location: /index.php");
 	$installFile = __FILE__;
@@ -25,49 +24,33 @@ if(isset($_GET["removeInstaller"]) && $_GET["removeInstaller"] == "true") {
 	unlink($installFile);
 	rmdir($installDir);
 }
-
 if(isset($_POST["doInstaller"])) {
-
 function clean_input($data) {
 	$data = trim($data);
 	$data = stripslashes($data);
 	$data = htmlspecialchars($data);
 	return $data;	
 }
-
 $DB_USER = clean_input($_POST["dbUser"]);
 $DB_PASS = clean_input($_POST["dbPass"]);
 $DB_NAME = clean_input($_POST["dbName"]);
 $DB_HOST = clean_input($_POST["dbHost"]);
 $conn = new mysqli($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
 $_CREATE_TABLES_SQL = 'START TRANSACTION';
-
 $_CREATE_TABLES_SQL = 'CREATE TABLE categories (`cat_id` INT(3) NOT NULL,`cat_name` VARCHAR(128) NOT NULL) ENGINE=MyISAM;';
-
 $_CREATE_TABLES_SQL .= 'CREATE TABLE comments (`comment_id` INT(3) NOT NULL,`comment_post_id` INT(3) NOT NULL,`comment_date` DATETIME NOT NULL,`comment_author` VARCHAR(255) NOT NULL,`comment_email` VARCHAR(255)  NOT NULL,`comment_content` tinytext NOT NULL,`comment_status` VARCHAR(32) NOT NULL) ENGINE=MyISAM;';
-
 $_CREATE_TABLES_SQL .= 'CREATE TABLE posts (`post_id` INT(3) NOT NULL,`post_cat_id` INT(3) NOT NULL,`post_title` VARCHAR(64) NOT NULL,  `post_author` VARCHAR(64) NOT NULL,`post_date` DATETIME(6) NOT NULL,`post_image` VARCHAR(256) NOT NULL,`post_content` mediumtext NOT NULL,`post_comment_count` INT(3) NOT NULL,`post_tags` VARCHAR(256) NOT NULL,`post_status` VARCHAR(32) NOT NULL,`post_comment_status` VARCHAR(16) NOT NULL) ENGINE=MyISAM;';
-
 $_CREATE_TABLES_SQL .= 'ALTER TABLE categories ADD PRIMARY KEY (`cat_id`);';
-
 $_CREATE_TABLES_SQL .= 'ALTER TABLE comments ADD PRIMARY KEY (`comment_id`);';
-
 $_CREATE_TABLES_SQL .= 'ALTER TABLE posts ADD PRIMARY KEY (`post_id`);';
-
 $_CREATE_TABLES_SQL .= 'ALTER TABLE categories MODIFY `cat_id` INT(3) NOT NULL AUTO_INCREMENT;';
-
 $_CREATE_TABLES_SQL .= 'ALTER TABLE comments MODIFY `comment_id` INT(3) NOT NULL AUTO_INCREMENT;';
-
 $_CREATE_TABLES_SQL .= 'ALTER TABLE posts MODIFY `post_id` int(3) NOT NULL AUTO_INCREMENT;';
-
 $_CREATE_TABLES_SQL .= 'COMMIT;';
-
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
-
 if ($conn->multi_query($_CREATE_TABLES_SQL) === TRUE) {
-
 $cfgFile = fopen("../includes/db-config.php", "w");
 $cfgEntry =<<<EOF
 <?php
@@ -77,10 +60,8 @@ define("DB_NAME","{$DB_NAME}");
 define("DB_HOST","${DB_HOST}");
 ?>
 EOF;
-
 fwrite($cfgFile, $cfgEntry);
 fclose($cfgFile);
-
     echo<<<EOH
 	<br/>
 	<div class="row">
@@ -133,7 +114,6 @@ EOH;
 }
 	
 } else {
-
 ?>
 			
 			<br/>
@@ -294,7 +274,6 @@ EOH;
 <?php 
 					
 } // end else block for POST statement.
-
 ?>
 
         <hr>
