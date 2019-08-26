@@ -1,5 +1,5 @@
 <?php
-include("database.php");
+include("includes.php");
 if(!empty($_POST["postData"])) {
 	$status = add_post_comment($_POST["postData"]);
 	echo $status["message"];
