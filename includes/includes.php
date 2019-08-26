@@ -1,4 +1,7 @@
 <?php
+if(!file_exists("db-config.php")) {
+	header("Location: /installer/installer.php");
+}
 include("db-config.php");
 
 function clean_input($data) {

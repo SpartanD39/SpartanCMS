@@ -59,6 +59,17 @@ if ($conn->connect_error) {
 } 
 
 if ($conn->multi_query($_CREATE_TABLES_SQL) === TRUE) {
+
+$cfgFile = fopen("../includes/db-config.php", "w");
+$cfgEntry =<<<EOF
+<?php
+define("DB_USER","{$DB_USER}");
+define("DB_PASS","{$DB_PASS}");
+define("DB_NAME","{$DB_NAME}");
+define("DB_HOST","${DB_HOST}");
+?>
+EOF
+	
     echo<<<EOH
 	<br/>
 	<div class="row">
