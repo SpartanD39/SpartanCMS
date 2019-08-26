@@ -23,7 +23,7 @@ if(isset($_GET["removeInstaller"]) && $_GET["removeInstaller"] == "true") {
 	$installDir = dirname(__FILE__);
 	unlink($installFile);
 	unlink($installDir);
-	header("Location: /");
+	header("Location: /index.php");
 }
 
 if(isset($_POST["doInstaller"])) {
