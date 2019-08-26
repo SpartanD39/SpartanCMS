@@ -47,15 +47,18 @@ function add_post_comment($commentdata) {
 	$comment["comment_email"] = clean_input($comment["comment_email"]);
 	$comment["comment_content"] = clean_input($comment["comment_content"]);
 	$comment["status"] = "pending";
-	$sql = "INSERT INTO comments (comment_post_id, comment_date, comment_author, comment_email, comment_content, comment_status) VALUES ('{$comment["post_id"]}','{$comment["date"]}','{$comment["comment_author"]}','{$comment["comment_email"]}','{$comment["comment_content"]}','{$comment["status"]}')";
+	//$sql = "INSERT INTO comments (comment_post_id, comment_date, comment_author, comment_email, comment_content, comment_status) VALUES ('{$comment["post_id"]}','{$comment["date"]}','{$comment["comment_author"]}','{$comment["comment_email"]}','{$comment["comment_content"]}','{$comment["status"]}')";
 	
-	$result = $conn->query($sql);
-	if($result === TRUE) {
+	$stmt = $conn->prepare("INSERT INTO comments (comment_post_id, comment_date, comment_author, comment_email, comment_content,comment_status) VALUES (?, ?, ?, ?, ?, ?)");
+	$stmt->bind_param("iissss", $comment["post_id"], $comment["date"], $comment["comment_author"], $comment["comment_email"], $comment["comment_content"], $comment["status"] );
+	
+	//$result = $conn->query($sql);
+	if($stmt->execute() === TRUE) {
 		$retArray["status"] = 1;
 		$retArray["message"] = "<div class=\"alert alert-success alert-dismissible show\" role=\"alert\">Comment submitted!<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span>  </button> </div><br/>";
 	} else {
 		$retArray["status"] = 0;
-		$retArray["message"] = "<div class=\"alert alert-danger alert-dismissible show\" role=\"alert\">Error!" . $conn->error . "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span>  </button> </div><br/>";
+		$retArray["message"] = "<div class=\"alert alert-danger alert-dismissible show\" role=\"alert\">Error!" . $conn->error . "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span>  </button> </div><div class=\"alert alert-danger alert-dismissible show\" role=\"alert\">Error!" . $sql . "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span>  </button> </div><br/>";
 	}
 	$conn->close();
 	return $retArray;
