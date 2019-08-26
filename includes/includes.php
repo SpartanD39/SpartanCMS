@@ -1,5 +1,5 @@
 <?php
-if(!file_exists("db-config.php")) {
+if(!file_exists("includes/db-config.php")) {
 	header("Location: /installer/installer.php");
 }
 include("db-config.php");

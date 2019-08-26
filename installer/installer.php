@@ -19,11 +19,11 @@
 <?php
 
 if(isset($_GET["removeInstaller"]) && $_GET["removeInstaller"] == "true") {
+	header("Location: /index.php");
 	$installFile = __FILE__;
 	$installDir = dirname(__FILE__);
 	unlink($installFile);
-	unlink($installDir);
-	header("Location: /index.php");
+	rmdir($installDir);
 }
 
 if(isset($_POST["doInstaller"])) {
