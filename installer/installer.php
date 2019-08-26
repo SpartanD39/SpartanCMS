@@ -179,34 +179,41 @@ EOH;
 						
 						$loaded_exts = get_loaded_extensions();
 						echo "<ul class=\"list-group list-group-flush\">";
+						$goodMods = [];
 						if(in_array("session", $loaded_exts)) {
 							echo <<<EOH
 							<li class="list-group-item list-group-item-success">'session' extension loaded.</li>
 EOH;
+							array_push($goodMods,"1");
 						} else {
 							echo <<<EOH
 							<li class="list-group-item list-group-item-danger">'session' extension not loaded!</li>
 EOH;
+							array_push($goodMods, "0");
 						}
 						
 						if(in_array("mysqli", $loaded_exts)) {
 							echo <<<EOH
 							<li class="list-group-item list-group-item-success">'mysqli' extension loaded.</li>
 EOH;
+							array_push($goodMods, "1");
 						} else {
 							echo <<<EOH
 							<li class="list-group-item list-group-item-danger">'mysqli' extension not loaded!</li>
 EOH;
+							array_push($goodMods, "0");
 						}
 						
 						if(in_array("mysqlnd", $loaded_exts)) {
 							echo <<<EOH
 							<li class="list-group-item list-group-item-success">'mysqlnd' extension loaded.</li>
 EOH;
+							array_push($goodMods, "1");
 						} else {
 							echo <<<EOH
 							<li class="list-group-item list-group-item-danger">'mysqlnd' extension not loaded!</li>
 EOH;
+							array_push($goodMods, "0");
 						}
 						echo "</ul>";
 					?>
@@ -230,6 +237,7 @@ EOH;
 				
 					<hr/>
 					<h3>Installer</h3>
+					<?php if(!in_array("0", $goodMods)) {?>
 					<p>Fill in the below form to set up your database and get going.</p>
 					<form class="form" action="" method="POST">
 						
@@ -268,7 +276,11 @@ EOH;
 							<button type="submit" class="btn btn-dark" id="doInstaller" name="doInstaller">Submit</button>
 							
 						</form>
+				<?php	} else { ?>
 				
+						<p>You need to enable all of the required extensions to install!</p>
+				
+				<?php } ?>
 				</div>
 				
 				<div class="col-md-3">
@@ -277,7 +289,7 @@ EOH;
 				
 			</div>
 <?php 
-
+					
 } // end else block for POST statement.
 
 ?>
