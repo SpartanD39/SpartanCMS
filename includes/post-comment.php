@@ -15,11 +15,15 @@ echo<<<EOT
 		</div>
 		<div class="form-row">
 			<div class="form-group col-md-12">
-				<textarea id="comment_content" name="comment_content" class="form-control" rows="3" required></textarea>
+				<small id="comment_content-help" class="form-text text-muted">64 character limit</small>
+				<textarea aria-describedby="comment_content-help" id="comment_content" name="comment_content" class="form-control" rows="3" required maxlength="64"></textarea>
 			</div>
 			<input type="hidden" id="post_id" name="post_id" class="form-control" value={$post_id}>
+			<br/>
 		</div>
+		
 		<button type="submit" class="btn btn-primary">Submit</button>
+		
 	</form>
 </div>
 EOT;
