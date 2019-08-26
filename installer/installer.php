@@ -18,6 +18,14 @@
 
 <?php
 
+if(isset($_GET["removeInstaller"]) && $_GET["removeInstaller"] == "true") {
+	header("Location: /index.php");
+	$installFile = __FILE__;
+	$installDir = dirname(__FILE__);
+	unlink($installFile);
+	rmdir($installDir);
+}
+
 if(isset($_POST["doInstaller"])) {
 
 function clean_input($data) {
@@ -59,6 +67,20 @@ if ($conn->connect_error) {
 } 
 
 if ($conn->multi_query($_CREATE_TABLES_SQL) === TRUE) {
+
+$cfgFile = fopen("../includes/db-config.php", "w");
+$cfgEntry =<<<EOF
+<?php
+define("DB_USER","{$DB_USER}");
+define("DB_PASS","{$DB_PASS}");
+define("DB_NAME","{$DB_NAME}");
+define("DB_HOST","${DB_HOST}");
+?>
+EOF;
+
+fwrite($cfgFile, $cfgEntry);
+fclose($cfgFile);
+
     echo<<<EOH
 	<br/>
 	<div class="row">
@@ -69,7 +91,7 @@ if ($conn->multi_query($_CREATE_TABLES_SQL) === TRUE) {
 		
 		<div class="col-md-6">
 			<div class="alert alert-success" role="alert">
-				Tables set up successfully!
+				Tables and config file set up successfully! <a href="/installer/installer.php?removeInstaller=true">Click here to delete the installer and go to your homepage.</a>
 			</div>
 		</div>
 		
@@ -95,6 +117,9 @@ EOH;
 			</div>
 			<div class="alert alert-danger" role="alert">
 				{$conn->error}
+			</div>
+			<div class="alert alert-danger" role="alert">
+				<a href="/installer/installer.php">Click here after you fix the issue,</a> and retry the installer.
 			</div>
 		</div>
 		
@@ -157,34 +182,41 @@ EOH;
 						
 						$loaded_exts = get_loaded_extensions();
 						echo "<ul class=\"list-group list-group-flush\">";
+						$goodMods = [];
 						if(in_array("session", $loaded_exts)) {
 							echo <<<EOH
 							<li class="list-group-item list-group-item-success">'session' extension loaded.</li>
 EOH;
+							array_push($goodMods,"1");
 						} else {
 							echo <<<EOH
 							<li class="list-group-item list-group-item-danger">'session' extension not loaded!</li>
 EOH;
+							array_push($goodMods, "0");
 						}
 						
 						if(in_array("mysqli", $loaded_exts)) {
 							echo <<<EOH
 							<li class="list-group-item list-group-item-success">'mysqli' extension loaded.</li>
 EOH;
+							array_push($goodMods, "1");
 						} else {
 							echo <<<EOH
 							<li class="list-group-item list-group-item-danger">'mysqli' extension not loaded!</li>
 EOH;
+							array_push($goodMods, "0");
 						}
 						
 						if(in_array("mysqlnd", $loaded_exts)) {
 							echo <<<EOH
 							<li class="list-group-item list-group-item-success">'mysqlnd' extension loaded.</li>
 EOH;
+							array_push($goodMods, "1");
 						} else {
 							echo <<<EOH
 							<li class="list-group-item list-group-item-danger">'mysqlnd' extension not loaded!</li>
 EOH;
+							array_push($goodMods, "0");
 						}
 						echo "</ul>";
 					?>
@@ -208,6 +240,7 @@ EOH;
 				
 					<hr/>
 					<h3>Installer</h3>
+					<?php if(!in_array("0", $goodMods)) {?>
 					<p>Fill in the below form to set up your database and get going.</p>
 					<form class="form" action="" method="POST">
 						
@@ -246,7 +279,11 @@ EOH;
 							<button type="submit" class="btn btn-dark" id="doInstaller" name="doInstaller">Submit</button>
 							
 						</form>
+				<?php	} else { ?>
 				
+						<p>You need to enable all of the required extensions to install!</p>
+				
+				<?php } ?>
 				</div>
 				
 				<div class="col-md-3">
@@ -255,7 +292,7 @@ EOH;
 				
 			</div>
 <?php 
-
+					
 } // end else block for POST statement.
 
 ?>
