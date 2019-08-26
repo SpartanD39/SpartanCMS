@@ -68,8 +68,11 @@ define("DB_PASS","{$DB_PASS}");
 define("DB_NAME","{$DB_NAME}");
 define("DB_HOST","${DB_HOST}");
 ?>
-EOF
-	
+EOF;
+
+fwrite($cfgFile, $cfgEntry);
+fclose($cfgFile);
+
     echo<<<EOH
 	<br/>
 	<div class="row">
