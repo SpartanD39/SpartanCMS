@@ -18,6 +18,14 @@
 
 <?php
 
+if(isset($_GET["removeInstaller"]) && $_GET["removeInstaller"] == "true") {
+	$installFile = __FILE__;
+	$installDir = dirname(__FILE__);
+	unlink($installFile);
+	unlink($installDir);
+	header("Location: /");
+}
+
 if(isset($_POST["doInstaller"])) {
 
 function clean_input($data) {
@@ -83,7 +91,7 @@ fclose($cfgFile);
 		
 		<div class="col-md-6">
 			<div class="alert alert-success" role="alert">
-				Tables set up successfully!
+				Tables and config file set up successfully! <a href="/installer/installer.php?removeInstaller=true">Click here to delete the installer and go to your homepage.</a>
 			</div>
 		</div>
 		
