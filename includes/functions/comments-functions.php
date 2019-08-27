@@ -3,7 +3,7 @@
 function admin_get_comments() {
 	$retArray = [];
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-	$sql = "SELECT comments.*, posts.post_title FROM comments INNER JOIN posts ON comments.comment_post_id=posts.post_id";
+	$sql = "SELECT comments.*, posts.post_title FROM comments LEFT JOIN posts ON comments.comment_post_id=posts.post_id ORDER BY comments.comment_id DESC";
 	$result = $conn->query($sql);
 	if($result->num_rows > 0) {
 		$retArray = $result->fetch_all(MYSQLI_ASSOC);
@@ -77,6 +77,10 @@ EOB;
 	} else {
 		
 		foreach($commentsAll as $comment) {
+			if($comment["post_title"] == "") {
+				$comment["post_title"] = "Orphaned";
+				$comment["comment_post_id"] = "#";
+			}
 		echo<<<EOB
 		<tr>
 			<td><a href="/index.php?id={$comment["comment_post_id"]}&view=post" target="_blank">{$comment["post_title"]}</a></td>
@@ -101,7 +105,7 @@ function get_post_comments($post_id) {
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	$post_id = clean_input($post_id);
 	$post_id = $conn->real_escape_string($post_id);
-	$sql = "SELECT * from comments where comment_post_id={$post_id} AND comment_status='Approved';";
+	$sql = "SELECT * from comments where comment_post_id={$post_id} AND comment_status='Approved' ORDER BY comment_id DESC;";
 	$result = $conn->query($sql);
 	if($result->num_rows > 0) {
 		$retArray = $result->fetch_all(MYSQLI_ASSOC);

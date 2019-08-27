@@ -39,6 +39,7 @@ if(isset($_POST["editPost"])) {
 	$post_complete["post_comment_status"] = $_POST["post_comment_status"];
 	
 	$post_task = edit_post($post_complete);
+	$post = get_single_post($post_id);
 	if($post_task["status"] == 1) {
 		echo $post_task["message"];
 	} else {
