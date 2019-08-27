@@ -79,7 +79,7 @@ if(isset($_GET['action']) && !empty($_GET['action'])) {
             <td>{$post["post_title"]}</td>
             <td>{$post["cat_name"]}</td>
 			<td>{$post["post_tags"]}</td>
-			<td><img src="../uploads/images/{$post["post_image"]}" alt="" class="img-thumbnail" width="120"></td>
+			<td><img src="../uploads/images/{$post["post_image"]}" alt="" class="img-thumbnail" style="height: auto; width: auto; max-height: 150px; max-width: 150px;"></td>
 			<td>{$post["post_status"]}</td>
 			<td>{$post["post_date"]}</td>
             <td><a href="../index.php?id={$post["post_id"]}&view=post" target="_blank">View</a></td>

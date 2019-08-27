@@ -30,8 +30,13 @@ include("admin-includes/admin-sidebar.php");
 					header("Location: /admin/admin-comments.php");
 				break;
 				
-				case "setStatus":
-					include("admin-includes/admin-comment-setstatus.php");
+				case "status":
+					if(isset($_GET['commentID']) && isset($_GET['commentStatus'])) {
+						$comment_id = $_GET['commentID'];
+						$comment_status = $_GET['commentStatus'];
+						admin_change_comment_status($comment_id, $comment_status);
+						header("Location: /admin/admin-comments.php");
+					}
 				break;
 					
 				default: 

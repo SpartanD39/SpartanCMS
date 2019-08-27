@@ -14,8 +14,30 @@ function admin_get_comments() {
 	return $retArray;
 }
 
-function admin_approve_comment($comment_id){
+function admin_change_comment_status($comment_id, $comment_status){
+	$retArray = [];
+	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+	$comment_id = clean_input($comment_id);
+	if($comment_status == "Pending") {
+		$new_comment_status = "Approved";
+	} elseif($comment_status == "Approved") {
+		$new_comment_status = "Approved";
+	} else {
+		die("Nice try!");
+	}
 	
+	$sql = "UPDATE comments SET comment_status='{$new_comment_status}' WHERE comment_id={$comment_id}";
+	$result = $conn->query($sql);
+	if($result === TRUE) {
+		$retArray["status"] = "1";
+		$retArray["message"] ="<div class=\"alert alert-warning\" role=\"alert\">Comment status changed.<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>";
+	} else {
+		$retArray["status"] = "0";
+		$retArray["message"] = "<div class=\"alert alert-danger\" role=\"alert\">Error changing comment status!<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>";
+	}
+	
+	$conn->close();
+	return $retArray;
 }
 
 function admin_delete_comment($comment_id) {
@@ -63,7 +85,7 @@ EOB;
 			<td>{$comment["comment_email"]}</td>
 			<td>{$comment["comment_author_ip"]}</td>
 			<td>{$comment["comment_content"]}</td>
-			<td>{$comment["comment_status"]}</td>
+			<td><a href="/admin/admin-comments.php?action=status&commentID={$comment["comment_id"]}&commentStatus={$comment["comment_status"]}" class="confirmstatus">Change Status</a> {$comment["comment_status"]}</td>
 			<td><a href="/admin/admin-comments.php?action=delete&commentID={$comment["comment_id"]}" class="confirmdelete">Delete Comment</a></td>
 		</tr>
 EOB;
@@ -78,7 +100,7 @@ function get_post_comments($post_id) {
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	$post_id = clean_input($post_id);
 	$post_id = $conn->real_escape_string($post_id);
-	$sql = "SELECT * from comments where comment_post_id={$post_id} AND comment_status='approved';";
+	$sql = "SELECT * from comments where comment_post_id={$post_id} AND comment_status='Approved';";
 	$result = $conn->query($sql);
 	if($result->num_rows > 0) {
 		$retArray = $result->fetch_all(MYSQLI_ASSOC);
@@ -120,7 +142,7 @@ function add_post_comment($commentdata) {
 	$comment["comment_email"] = clean_input($comment["comment_email"]);
 	$comment["comment_author_ip"] = clean_input(get_client_ip());
 	$comment["comment_content"] = clean_input($comment["comment_content"]);
-	$comment["status"] = "pending";
+	$comment["status"] = "Pending";
 	
 	$stmt = $conn->prepare("INSERT INTO comments (comment_post_id, comment_date, comment_author, comment_email, comment_author_ip, comment_content,comment_status) VALUES (?, ?, ?, ?, ?, ?, ?)");
 	$stmt->bind_param("issssss", $comment["post_id"], $comment["date"], $comment["comment_author"], $comment["comment_email"], $comment["comment_author_ip"], $comment["comment_content"], $comment["status"] );
@@ -136,10 +158,6 @@ function add_post_comment($commentdata) {
 	$conn->close();
 	return $retArray;
 	
-	
-}
-
-function admin_delete_post_comment($commentid) {
 	
 }
 ?>

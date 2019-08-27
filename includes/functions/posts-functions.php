@@ -43,7 +43,7 @@ EOT;
 			echo "<p><span class=\"glyphicon glyphicon-time\"></span> Posted on {$post["post_date"]}</p>";
 			
 			echo "<hr>";
-			echo "<img class=\"img-responsive\" src=\"uploads/images/{$post["post_image"]}\" width=\"250\" alt=\"\">";
+			echo "<img class=\"img-responsive\" src=\"uploads/images/{$post["post_image"]}\" style=\"max-height: 300px; max-width: 900px;\" alt=\"\">";
 			echo "<hr>";
 			
 			echo "<p>";
