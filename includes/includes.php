@@ -1,10 +1,12 @@
 <?php
-define("CONFIGDIR", dirname(__FILE__));
 define("DS", DIRECTORY_SEPARATOR);
-if(!file_exists(CONFIGDIR . DS . "db-config.php")) {
+define("CONFIG_DIR", dirname(__FILE__) . DS);
+define("FRONT_FUNCS_DIR", CONFIG_DIR . "functions" . DS);
+
+if(!file_exists(CONFIG_DIR . "db-config.php")) {
 	header("Location: /installer/installer.php");
 }
-include(CONFIGDIR . DS . "db-config.php");
+include(CONFIG_DIR . "db-config.php");
 
 function clean_input($data) {
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -34,10 +36,10 @@ function get_client_ip() {
     return $ipaddress;
 }
 
-include("functions/posts-functions.php");
-include("functions/category-functions.php");
-include("functions/search-functions.php");
-include("functions/comments-functions.php");
+include(FRONT_FUNCS_DIR . "posts-functions.php");
+include(FRONT_FUNCS_DIR . "category-functions.php");
+include(FRONT_FUNCS_DIR . "search-functions.php");
+include(FRONT_FUNCS_DIR . "comments-functions.php");
 
 
 
