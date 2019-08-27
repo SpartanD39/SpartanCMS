@@ -21,7 +21,7 @@ function admin_change_comment_status($comment_id, $comment_status){
 	if($comment_status == "Pending") {
 		$new_comment_status = "Approved";
 	} elseif($comment_status == "Approved") {
-		$new_comment_status = "Approved";
+		$new_comment_status = "Pending";
 	} else {
 		die("Nice try!");
 	}
@@ -85,7 +85,8 @@ EOB;
 			<td>{$comment["comment_email"]}</td>
 			<td>{$comment["comment_author_ip"]}</td>
 			<td>{$comment["comment_content"]}</td>
-			<td><a href="/admin/admin-comments.php?action=status&commentID={$comment["comment_id"]}&commentStatus={$comment["comment_status"]}" class="confirmstatus">Change Status</a> {$comment["comment_status"]}</td>
+			<td>{$comment["comment_status"]}</td>
+			<td><a href="/admin/admin-comments.php?action=status&commentID={$comment["comment_id"]}&commentStatus={$comment["comment_status"]}" class="confirmstatus">Change Status</a></td>
 			<td><a href="/admin/admin-comments.php?action=delete&commentID={$comment["comment_id"]}" class="confirmdelete">Delete Comment</a></td>
 		</tr>
 EOB;
