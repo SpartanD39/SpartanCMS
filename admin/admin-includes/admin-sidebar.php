@@ -15,10 +15,6 @@
 fa-caret-down"></i></a>
                         <ul id="posts_dropdown" class="collapse">
 							<li>
-								<a href="admin-categories.php"><i class="fa fa-fw fa-edit"></i> Add/Edit Categories</a>
-							</li>
-							
-							<li>
                                 <a href="admin-post.php"><i class="fa fa-book"></i> View All Posts</a>
                             </li>
 							
@@ -28,6 +24,10 @@ fa-caret-down"></i></a>
                             
 						</ul>
                     </li>
+					
+					<li>
+						<a href="admin-categories.php"><i class="fa fa-fw fa-edit"></i> Add/Edit Categories</a>
+					</li>
 					
 					<li>
 						<a href="admin-comments.php"><i class="fa fa-fw fa-comments"></i> Manage Comments</a>

@@ -6,7 +6,7 @@ function get_all_posts(bool $onlypublic = false) {
 	if($onlypublic) {
 		$sql = "SELECT * FROM posts WHERE post_status='public';";
 	} else {
-		$sql = "SELECT posts.*, categories.cat_name FROM posts INNER JOIN categories ON posts.post_cat_id=categories.cat_id ";
+		$sql = "SELECT posts.*, categories.cat_name FROM posts INNER JOIN categories ON posts.post_cat_id=categories.cat_id";
 	}	
 	$result = $conn->query($sql);
 	if($result->num_rows > 0) {
@@ -43,7 +43,7 @@ EOT;
 			echo "<p><span class=\"glyphicon glyphicon-time\"></span> Posted on {$post["post_date"]}</p>";
 			
 			echo "<hr>";
-			echo "<img class=\"img-responsive\" src=\"uploads/images/{$post["post_image"]}\" width=\"250\" alt=\"\">";
+			echo "<img class=\"img-responsive\" src=\"uploads/images/{$post["post_image"]}\" style=\"max-height: 300px; max-width: 900px;\" alt=\"\">";
 			echo "<hr>";
 			
 			echo "<p>";
@@ -116,6 +116,9 @@ EOT;
 function display_single_post($post_id) {
 	$post = get_single_post($post_id);
 	forEach($post as $post_data) {
+		if($post_data["post_status"] == "private") {
+			header("Location: /index.php");
+		}
 		$post_data["post_date"] = date('d-m-y H:i',strtotime($post_data["post_date"]));
 		$post_data["post_content"] = htmlspecialchars_decode($post_data["post_content"]);
 		echo<<<EOT
@@ -201,7 +204,7 @@ function edit_post($post_complete) {
 	$post_date = $conn->real_escape_string(clean_input($post_complete["post_date"]));
 	$post_image = $conn->real_escape_string(clean_input($post_complete["post_image"]));
 	$post_content = $conn->real_escape_string(clean_input($post_complete["post_content"]));
-	$post_comment_count = $conn->real_escape_string(clean_input($post_complete["post_comment_count"]));
+	$post_comment_status = $conn->real_escape_string(clean_input($post_complete["post_comment_status"]));
 	$post_tags = $conn->real_escape_string(clean_input($post_complete["post_tags"]));
 	$post_status = $conn->real_escape_string(clean_input($post_complete["post_status"]));
 	
@@ -216,7 +219,7 @@ function edit_post($post_complete) {
 	$result = $conn->query($sql);
 	if($result === TRUE) {
 		$retArray["status"] = 1;
-		$retArray["message"] = "<div class=\"alert alert-success alert-dismissible show\" role=\"alert\">Post " . $post_title . " Updated!<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span>  </button> </div><br/>";
+		$retArray["message"] = "<div class=\"alert alert-success alert-dismissible show\" role=\"alert\">Post '" . $post_title . "' Updated!<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span>  </button> </div><br/>";
 	} else {
 		$retArray["status"] = 0;
 		$retArray["message"] = "<div class=\"alert alert-danger alert-dismissible show\" role=\"alert\">Error!" . $conn->error . "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span>  </button> </div><br/>";
