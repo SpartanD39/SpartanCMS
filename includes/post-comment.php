@@ -27,6 +27,5 @@ echo<<<EOT
 	</form>
 </div>
 EOT;
-$comments = get_post_comments($post_id);
-display_post_comments($comments);
+display_post_comments($post_id);
 ?>

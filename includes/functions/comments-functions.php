@@ -3,7 +3,7 @@
 function admin_get_comments() {
 	$retArray = [];
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-	$sql = "SELECT * FROM comments";
+	$sql = "SELECT comments.*, posts.post_title FROM comments INNER JOIN posts ON comments.comment_post_id=posts.post_id";
 	$result = $conn->query($sql);
 	if($result->num_rows > 0) {
 		$retArray = $result->fetch_all(MYSQLI_ASSOC);
@@ -63,7 +63,7 @@ function admin_display_comments() {
 	if(empty($commentsAll)) {
 		echo<<<EOB
 		<tr>
-			<td class=".d-none">0</td>
+			<td>0</td>
 			<td>Nothing</td>
 			<td>to</td>
 			<td>display</td>
@@ -79,7 +79,7 @@ EOB;
 		foreach($commentsAll as $comment) {
 		echo<<<EOB
 		<tr>
-			<td>{$comment["comment_post_id"]}</td>
+			<td><a href="/index.php?id={$comment["comment_post_id"]}&view=post" target="_blank">{$comment["post_title"]}</a></td>
 			<td>{$comment["comment_date"]}</td>
 			<td>{$comment["comment_author"]}</td>
 			<td>{$comment["comment_email"]}</td>
@@ -87,7 +87,7 @@ EOB;
 			<td>{$comment["comment_content"]}</td>
 			<td>{$comment["comment_status"]}</td>
 			<td><a href="/admin/admin-comments.php?action=status&commentID={$comment["comment_id"]}&commentStatus={$comment["comment_status"]}" class="confirmstatus">Change Status</a></td>
-			<td><a href="/admin/admin-comments.php?action=delete&commentID={$comment["comment_id"]}" class="confirmdelete">Delete Comment</a></td>
+			<td><a href="/admin/admin-comments.php?action=delete&commentID={$comment["comment_id"]}" class="confirmcommentdelete">Delete Comment</a></td>
 		</tr>
 EOB;
 		
@@ -112,7 +112,8 @@ function get_post_comments($post_id) {
 	return $retArray;
 }
 
-function display_post_comments($comments) {
+function display_post_comments($post_id) {
+	$comments = get_post_comments($post_id);
 	foreach($comments as $comment) {
 		$comment["comment_date"] = date('d-m-y H:i',strtotime($comment["comment_date"]));
 		echo<<<EOT

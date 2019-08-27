@@ -6,7 +6,7 @@ function get_all_posts(bool $onlypublic = false) {
 	if($onlypublic) {
 		$sql = "SELECT * FROM posts WHERE post_status='public';";
 	} else {
-		$sql = "SELECT posts.*, categories.cat_name FROM posts INNER JOIN categories ON posts.post_cat_id=categories.cat_id ";
+		$sql = "SELECT posts.*, categories.cat_name FROM posts INNER JOIN categories ON posts.post_cat_id=categories.cat_id";
 	}	
 	$result = $conn->query($sql);
 	if($result->num_rows > 0) {
