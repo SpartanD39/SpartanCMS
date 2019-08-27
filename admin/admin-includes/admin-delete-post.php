@@ -10,17 +10,20 @@ if(isset($_POST["confirmDelete"])) {
 	} else {
 		echo $post_task["message"];
 	}
+} else {
+	echo<<<EOT
+<form action="" method="POST">
+	<div class="form-group">
+		<label for="delete_confirm">Are you sure you want to delete "{$post[0]["post_title"]}"?</label>
+		<input type="hidden" id="post_id" name="post_id" value="{$post[0]["post_id"]}">
+	</div>
+	<button class="btn btn-default" type="submit" name="confirmDelete" value="confirmDelete">Delete Post</button>
+	<br/>
+	<br/>
+	<p><a href="admin-post.php">Click here</a> to return to the posts list.
+</form>	
+EOT;
 }
 ?>
 
-<form action="" method="POST">
-<div class="form-group">
-	<label for="delete_confirm">Are you sure you want to delete "<?php echo $post[0]["post_title"];?>"?</label>
-	<input type="hidden" id="post_id" name="post_id" value="<?php echo $post[0]["post_id"]; ?>">
-</div>
-<button class="btn btn-default" type="submit" name="confirmDelete" value="confirmDelete">Delete Post</button>
-<br/>
-<br/>
-<p><a href="admin-post.php">Click here</a> to return to the posts list.
-</form>
 </div>
