@@ -38,7 +38,7 @@ function delete_admin_user($uid) {
 
 }
 
-function admin_update_user_pass($uid) {
+function admin_update_user_pass($uid, $newPass) {
 
 }
 
@@ -139,7 +139,7 @@ echo <<<EOHTML
 
       <div class="form-group">
       	<label for="user_avatar">Avatar:</label>
-      	<input type="file" class="form-control-file" id="user_avatar" name="user_avatar" value="">
+      	<input type="file" class="form-control-file" id="user_avatar" name="user_avatar" value="{$user["user_avatar"]}">
       </div>
 
     </div>
