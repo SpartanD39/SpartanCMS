@@ -19,7 +19,7 @@ include("admin-includes/admin-sidebar.php");
 
     <div class="row">
       <div class="col-lg-12">
-          <table class="table" id="commentTable">
+          <table class="table" id="userTable">
             <thead>
               <tr>
                 <th scope="col">UserID:</th>
