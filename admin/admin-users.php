@@ -19,9 +19,10 @@ include("admin-includes/admin-sidebar.php");
     <div class="row">
     <?php
 
-      if(isset($_GET["action"])) {
+      if(isset($_GET["action"]) && isset($_GET["uid"])) {
 
         $action = htmlspecialchars($_GET["action"]);
+        $uid = htmlspecialchars($_GET["uid"]);
 
         switch($action) {
           case "manage":
@@ -30,7 +31,6 @@ include("admin-includes/admin-sidebar.php");
 
           default:
             admin_display_users();
-            break;
         }
 
       } else {
