@@ -14,7 +14,7 @@ function admin_get_user($uid) {
 
   $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-  $sql = "SELECT user_id, user_name, user_email, user_date_reg, user_avatar, user_role, user_reg_status FROM users WHERE user_id={$uid}";
+  $sql = "SELECT user_id, user_name, user_email, user_date_reg, user_avatar, user_tagline, user_bio, user_role, user_reg_status FROM users WHERE user_id={$uid}";
 
  	$result = $conn->query($sql);
 
@@ -30,7 +30,7 @@ function admin_get_user($uid) {
 
 }
 
-function admin_update_user($uid) {
+function admin_update_user($userProfileData) {
 
 }
 
@@ -121,7 +121,7 @@ function admin_display_user_manager(int $uid) {
 $user = admin_get_user($uid);
 
 echo <<<EOHTML
-<form class="form" action="" method="POST">
+<form class="form" action="" method="POST" id="userProfileForm" enctype="multipart/form-data">
 
   <div class="form-row">
 
@@ -138,8 +138,8 @@ echo <<<EOHTML
 
 
       <div class="form-group">
-      	<label for="post_image">Avatar:</label>
-      	<input type="file" class="form-control-file" id="post_image" name="post_image" value="">
+      	<label for="user_avatar">Avatar:</label>
+      	<input type="file" class="form-control-file" id="user_avatar" name="user_avatar" value="">
       </div>
 
     </div>
@@ -148,13 +148,13 @@ echo <<<EOHTML
 
       <div class="form-group">
         <label for="user_tagline">Tagline:</label>
-        <input type="text" class="form-control" id="user_tagline" name="user_tagline" value="{$user["user_name"]}">
+        <input type="text" class="form-control" id="user_tagline" name="user_tagline" value="{$user["user_tagline"]}">
       </div>
 
       <div class="form-group">
-      	<label for="user_bio">Have at it!</label>
+      	<label for="user_bio">About You:</label>
       	<textarea class="form-control user-bio" id="user_bio" name="user_bio" rows="15" style="max-width:500px;">
-      	{$user["user_name"]}
+{$user["user_bio"]}
       	</textarea>
       </div>
 
@@ -174,8 +174,17 @@ echo <<<EOHTML
     </div>
 
     <div class="col-lg-6">
-      <input type="hidden" id="user_id" name="user_id" value="{$user["user_id"]}">
-      <button class="btn btn-default" type="submit" name="editProfile" value="editProfile">Update profile</button>
+      <div class="form-group">
+
+        <label for="user_email">Your Email:</label>
+        <input type="text" class="form-control" id="user_email" name="user_email" value="{$user["user_email"]}">
+
+        <br/>
+
+        <input type="hidden" id="user_id" name="user_id" value="{$user["user_id"]}">
+        <button class="btn btn-default" type="submit" name="editProfile" value="editProfile">Update profile</button>
+
+      </div>
     </div>
 
   </div>
