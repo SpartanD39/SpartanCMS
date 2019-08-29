@@ -35,7 +35,28 @@
   */
 
 function admin_display_users() {
+
   $usersAll = get_all_users();
+
+echo<<<EOB
+    <div class="col-lg-12">
+        <table class="table" id="userTable">
+          <thead>
+            <tr>
+              <th scope="col">UserID:</th>
+              <th scope="col">Username:</th>
+              <th scope="col">Email:</th>
+              <th scope="col">Date Joined:</th>
+              <th scope="col">Avatar:</th>
+              <th scope="col">Role:</th>
+              <th scope="col">Status:</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+
+          <tbody>
+EOB;
+
   foreach($usersAll as $user) {
     echo<<<EOB
     <tr>
@@ -50,6 +71,11 @@ function admin_display_users() {
     </tr>
 EOB;
   }
+
+echo<<<EOB
+  </tbody>
+</div>
+EOB;
 }
 
  ?>
