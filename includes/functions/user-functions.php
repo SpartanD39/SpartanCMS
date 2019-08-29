@@ -123,14 +123,59 @@ $user = admin_get_user($uid);
 echo <<<EOHTML
 <form class="form" action="" method="POST">
 
-  <div class="row">
+  <div class="form-row">
 
-    <div class="col">
-      <img src="../../uploads/images/{$user["user_avatar"]}" class="profile-image"/>
+    <div class="col-lg-6">
+
+      <div class="form-group">
+      	<label for="user_name">Username:</label>
+      	<input type="text" class="form-control" id="user_name" name="user_name" value="{$user["user_name"]}">
+      </div>
+
+      <div class="form-group">
+        <img src="../../uploads/images/{$user["user_avatar"]}" class="profile-image"/>
+      </div>
+
+
+      <div class="form-group">
+      	<label for="post_image">Avatar:</label>
+      	<input type="file" class="form-control-file" id="post_image" name="post_image" value="">
+      </div>
+
     </div>
 
-    <div class="col">
+    <div class="col-lg-6">
 
+      <div class="form-group">
+        <label for="user_tagline">Tagline:</label>
+        <input type="text" class="form-control" id="user_tagline" name="user_tagline" value="{$user["user_name"]}">
+      </div>
+
+      <div class="form-group">
+      	<label for="user_bio">Have at it!</label>
+      	<textarea class="form-control user-bio" id="user_bio" name="user_bio" rows="15" style="max-width:500px;">
+      	{$user["user_name"]}
+      	</textarea>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="form-row">
+
+    <div class="col-lg-6">
+      <div class="form-group">
+        <label for="user_password">Change Password:</label>
+        <input type="password" class="form-control" id="user_password" name="user_password">
+        <label for="user_password_confirm">Confirm Password:</label>
+        <input type="password" class="form-control" id="user_password_confirm" name="user_password_confirm">
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <input type="hidden" id="user_id" name="user_id" value="{$user["user_id"]}">
+      <button class="btn btn-default" type="submit" name="editProfile" value="editProfile">Update profile</button>
     </div>
 
   </div>

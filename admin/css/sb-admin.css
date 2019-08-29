@@ -233,3 +233,7 @@ ul.alert-dropdown {
   max-height: 250px;
   max-width: 250px;
 }
+
+#user_bio {
+  resize: none;
+}
