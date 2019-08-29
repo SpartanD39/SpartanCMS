@@ -18,7 +18,25 @@ include("admin-includes/admin-sidebar.php");
 		<!-- /.row -->
     <div class="row">
     <?php
-      admin_display_users();
+
+      if(isset($_GET["action"])) {
+
+        $action = htmlspecialchars($_GET["action"]);
+
+        switch($action) {
+          case "manage":
+            include("admin-includes/admin-manage-profile.php");
+            break;
+
+          default:
+            admin_display_users();
+            break;
+        }
+
+      } else {
+        admin_display_users();
+      }
+
     ?>
     </div>
   </div>

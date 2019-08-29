@@ -76,6 +76,7 @@ echo<<<EOB
   </tbody>
 </div>
 EOB;
+
 }
 
  ?>
