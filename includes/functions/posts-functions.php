@@ -1,5 +1,15 @@
 <?php
-/*Post related functions*/
+/**
+ * Post-related function definitions
+ */
+
+/**
+* Gets all posts from the database with conditionals.
+* 
+* @param bool $onlypublic Defaults to false. Determines if returns all posts for use or not, false for all posts.
+*
+* @return array
+*/
 function get_all_posts(bool $onlypublic = false) {
 	$retArray = [];
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -18,6 +28,13 @@ function get_all_posts(bool $onlypublic = false) {
 	return $retArray;
 }
 
+/**
+* Displays posts on the front page.
+*
+* Uses get_all_posts() to get all public posts and output them.
+*
+* @return void
+*/
 function display_posts_front() {
 	$posts = get_all_posts(true);
 	echo<<<EOT
@@ -58,6 +75,14 @@ EOT;
 	}
 }
 
+
+/**
+* Retrieves a single post from the database.
+*
+* @param int $post_id ID of the post we want to get.
+*
+* @return array
+*/
 function get_single_post($post_id) {
     $retArray = [];
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -74,6 +99,15 @@ function get_single_post($post_id) {
 	return $retArray;
 }
 
+/**
+* Collects posts by category from the db.
+*
+* Takes a category ID as input and returns an array of arrays containing posts in that category.
+*
+* @param int $cat_id
+* 
+* @return array
+*/
 function get_posts_by_cat($cat_id) {
 	$retArray = [];
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -90,6 +124,15 @@ function get_posts_by_cat($cat_id) {
 	return $retArray;
 }
 
+/**
+* Displays posts in a category
+*
+* Display function for get_posts_by_cat(), outputs the appropriate HTML for viewing.
+*
+* @param array $posts Array of arrays containing posts information. 
+*
+* @return void
+*/
 function display_cat_posts($posts) {
 	foreach($posts as $post) {
 		$post["post_date"] = date('d-m-y H:i',strtotime($post["post_date"]));
@@ -113,6 +156,15 @@ EOT;
 	}
 }
 
+/**
+* Displays a single post
+*
+* Generates the appropriate HTML for our post to be displayed and redirects on trying to view a private post.
+*
+* @param int $post_id ID of the post we want to display
+*
+* @return void
+*/
 function display_single_post($post_id) {
 	$post = get_single_post($post_id);
 	forEach($post as $post_data) {
@@ -165,6 +217,15 @@ EOT;
 	}
 }
 
+/**
+* Creates a new post in the database 
+* 
+* Creates a post in the database based on data submitted via a form in the admin posts creation page.
+*
+* @param array $post_complete Array of new post information.
+*
+* @return array
+*/
 function create_post($post_complete) {
 	$retArray = [];
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -193,6 +254,15 @@ function create_post($post_complete) {
 	return $retArray;	
 }
 
+/**
+* Updates a post in the database. 
+*
+* Updates a post in the database with information from the editing page form in admin. Contains some in-built error handling.
+*
+* @param array $post_complete Array of post information retrieved from the database previously.
+*
+* @return array
+*/
 function edit_post($post_complete) {
     $retArray = [];
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -228,6 +298,15 @@ function edit_post($post_complete) {
 	return $retArray;	
 }
 
+/**
+* Removes a post from the database
+*
+* Deletes a post from the database based on post id. TODO: Add checks for admin access once user system is implemented.
+*
+* @param int $post_id Post id of what we want to remove.
+*
+* @return array
+*/
 function delete_post($post_id) {
 	$retArray = [];
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
