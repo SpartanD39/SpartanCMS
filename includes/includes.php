@@ -22,4 +22,5 @@ include(FRONT_FUNCS_DIR . "search-functions.php");
 
 include(FRONT_FUNCS_DIR . "comments-functions.php");
 
+include(FRONT_FUNCS_DIR . "user-functions.php");
 ?>
