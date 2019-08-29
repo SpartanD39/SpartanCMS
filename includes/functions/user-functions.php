@@ -28,4 +28,31 @@
  	return $retArray;
  }
 
+ /**
+  * Displays users to the admin in the admin area.
+  *
+  * @return void
+  */
+
+  function admin_display_users() {
+  	$usersAll = get_all_users();
+  		foreach($usersAll as $user) {
+		echo<<<EOB
+		<tr>
+			<td>{$user["user_id"]}</td>
+			<td>{$user["user_name"]}</td>
+			<td>{$user["user_email"]}</td>
+			<td>{$user["user_date_reg"]}</td>
+			<td>{$user["user_avatar"]}</td>
+			<td>{$user["user_role"]}</td>
+			<td>{$user["user_reg_status"]}</td>
+			<td><a href="#">Placeholder</a></td>
+		</tr>
+EOB;
+
+  	}
+
+  	}
+  }
+
  ?>
