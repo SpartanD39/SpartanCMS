@@ -101,7 +101,7 @@ EOB;
     <td>{$user["user_name"]}</td>
     <td>{$user["user_email"]}</td>
     <td>{$user["user_date_reg"]}</td>
-    <td><img src="../uploads/images/{$user["user_avatar"]}" /></td>
+    <td><img src="../uploads/images/{$user["user_avatar"]}" class="avatar-image"/></td>
     <td>{$user["user_role"]}</td>
     <td>{$user["user_reg_status"]}</td>
     <td><a href="/admin/admin-users.php?action=manage&uid={$user["user_id"]}">Manage</a></td>
@@ -116,11 +116,24 @@ EOB;
 
 }
 
-admin_display_user_manager($uid) {
+function admin_display_user_manager(int $uid) {
 
-  $user = admin_get_user($uid);
+$user = admin_get_user($uid);
+
 echo <<<EOHTML
 <form class="form" action="" method="POST">
+
+  <div class="row">
+
+    <div class="col">
+      <img src="../../uploads/images/{$user["user_avatar"]}" class="profile-image"/>
+    </div>
+
+    <div class="col">
+
+    </div>
+
+  </div>
 
 </form>
 EOHTML;
