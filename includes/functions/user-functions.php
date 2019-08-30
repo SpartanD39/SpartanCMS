@@ -7,6 +7,10 @@ function admin_create_user($uid) {
 
  }
 
+ function validate_new_user($userInfoArray) {
+
+ }
+
 function admin_get_user($uid) {
   $retArray = [];
 
@@ -72,7 +76,114 @@ function delete_admin_user($uid) {
 
 }
 
-function admin_update_user_pass($uid, $newPass) {
+/**
+* WARNING! BELOW ARE USER-DEFINED LOGIN AND PASSWORD FUNCTIONS
+* DO NOT MODIFY THESE FUNCTIONS UNLESS YOU HAVE A VERY COMPELLING
+* REASON TO DO SO.
+* Most of these functions will only be called in the context of another
+* function, or group of functionality.
+*/
+
+/**
+* Sets the user password on user creation. The initial user function will
+* create the user in the database, and this function will be called to encrypt
+* and put the password in the database.
+*
+*/
+function admin_set_user_pass($uid, $newPass) {
+
+  $uid = clean_input($uid);
+
+  $newPass = clean_input($newPass);
+
+  $cryptPass = password_hash($newPass, PASSWORD_DEFAULT);
+
+  $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+  $sql = "UPDATE users SET user_pass='{$cryptPass}'";
+
+  $result = $conn->query($sql);
+
+  if($result === TRUE) {
+    $retval = 1;
+  } else {
+    $retval = 0;
+  }
+
+  $conn->close();
+
+  return $retval;
+
+}
+
+function admin_update_user_pass($uid, $oldPass, $newPass) {
+
+  $uid = clean_input($uid);
+  $oldPass = clean_input($oldPass);
+
+  $newPass = clean_input($newPass);
+  $newPass = password_hash($newPass, PASSWORD_DEFAULT);
+
+  $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+  $getPassSQL = "SELECT user_password FROM users WHERE user_id={$uid}"
+  $getPassRes = $conn->query($getPassSQL);
+  if($getPassRes->num_rows == 1) {
+    $hashedPass = $getPassRes->fetch_array(MYSQLI_ASSOC);
+  } else {
+    $conn->close();
+    die("Critical application error. Please submit a report to the dev.");
+  }
+
+  if(password_verify($oldPass, $hashedPass["user_pass"])) {
+
+    $updatePassSQL = "UPDATE users SET user_pass={$newPass} WHERE user_id={$uid}";
+    $updatePassRes = $conn->query($updatePassSQL);
+  } else {
+    $conn->close();
+    die("Critical application error. Please submit a report to the dev.");
+  }
+
+  if($updatePassRes === TRUE) {
+    $retval = 1;
+  } else {
+    $conn->close();
+    die("Critical application error. Please submit a report to the dev.");
+  }
+
+  $conn->close();
+
+  return $retval;
+
+}
+
+function login_validate_user_pass($username, $userpass) {
+
+  $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+  $username = clean_input($username);
+  $userpass = clean_input($userpass);
+
+  $passSql = "SELECT user_pass FROM users WHERE user_name='{$username}' OR user_name='{$username}' LIMIT 1";
+
+  $passRes = $conn->query($passSql);
+
+  if($passRes->num_rows == 1 {
+    $passCrypt = $passRes->fetch_array(MYSQLI_ASSOC);
+    if(password_verify($userpass, $passCrypt)) {
+      $retval = 1;
+    } else {
+      $retval = 0;
+    }
+  } else {
+    $retval = 0;
+  }
+
+  $conn->close();
+  return $retval;
+
+}
+
+function create_user_session($username, $userpass) {
 
 }
 
