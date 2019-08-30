@@ -222,3 +222,18 @@ ul.alert-dropdown {
 .panel-yellow a:hover {
     color: #df8a13;
 }
+
+/*Custom CSS definitions ahead*/
+.avatar-image {
+  max-height: 50px;
+  max-width: 50px;
+}
+
+.profile-image {
+  max-height: 250px;
+  max-width: 250px;
+}
+
+#user_bio {
+  resize: none;
+}
