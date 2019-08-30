@@ -25,6 +25,7 @@ function admin_create_user($userInfoArray) {
 
     if($conn->query($userSql)) {
 
+/*
       $mailTo = $user_email;
 
       $mailSubject = "New registration details from spartancms.local";
@@ -34,7 +35,7 @@ function admin_create_user($userInfoArray) {
       $mailHeaders = "From: admin@spartancms.local\r\nReply-To: noreply@spartancms.local\r\nX-Mailer: PHP/" .phpversion();
 
       mail($mailTo,$mailSubject,$mailMessage,$mailHeaders);
-
+*/
       $retval = 1;
 
     } else {
