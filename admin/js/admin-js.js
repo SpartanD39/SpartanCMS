@@ -6,6 +6,10 @@ $(".confirmcategorydelete").click(function(){
 	return confirm('Are you sure you want to delete this category?');
 });
 
+$(".confirmProfileDelete").click(function(){
+	return confirm('Are you sure you want to delete this user?');
+});
+
 $(".confirmcommentdelete").click(function(){
 	return confirm('Are you sure you want to delete this comment?');
 });

@@ -9,7 +9,7 @@ function validate_user_privs() {
 
 function admin_create_user($userInfoArray) {
   $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-  
+
   if(validate_new_user($userInfoArray)) {
 
     $user_name = clean_input($userInfoArray["user_name"]);
@@ -28,7 +28,7 @@ function admin_create_user($userInfoArray) {
 
     $cryptPass = password_hash($user_pass, PASSWORD_DEFAULT);
 
-    $userSql = "INSERT INTO users (user_name,user_email,user_date_reg,user_avatar,user_reg_status,user_pass) VALUES ('{$user_name}','{$user_email}','{$user_date_reg}','{$user_avatar}','{$user_reg_status}','{$cryptPass}')";
+    $userSql = "INSERT INTO users (user_name,user_email,user_date_reg,user_avatar,user_role,user_reg_status,user_pass) VALUES ('{$user_name}','{$user_email}','{$user_date_reg}','{$user_avatar}','{$user_role}','{$user_reg_status}','{$cryptPass}')";
 
     if($conn->query($userSql)) {
 
@@ -401,6 +401,7 @@ echo <<<EOHTML
 
         <input type="hidden" id="user_id" name="user_id" value="{$user["user_id"]}">
         <button class="btn btn-default" type="submit" name="editProfile" value="editProfile">Update profile</button>
+        <button class="btn btn-danger pull-right confirmProfileDelete" type="submit" name="deleteProfile" value="deleteProfile">Delete profile</button>
 
       </div>
     </div>
