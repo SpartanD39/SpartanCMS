@@ -3,13 +3,37 @@
  * User-related function definitions
  */
 
-function admin_create_user($uid) {
+function validate_user_privs() {
 
- }
+}
 
- function validate_new_user($userInfoArray) {
+function admin_create_user($userInfoArray) {
 
- }
+}
+
+function validate_new_user($userInfoArray) {
+
+  $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+  $user_name = clean_input($userInfoArray["user_name"]);
+
+  $user_email = clean_input($userInfoArray["user_email"]);
+
+  $sql = "SELECT user_id FROM users WHERE user_name='{$user_name}' OR user_email='{$user_email}'";
+
+  $result = $conn->query($sql);
+
+  if($result->num_rows < 1) {
+    $retval = 1;
+  } else {
+    $retval = 0;
+  }
+
+  $conn->close();
+
+  return $retval;
+  
+}
 
 function admin_get_user($uid) {
   $retArray = [];
