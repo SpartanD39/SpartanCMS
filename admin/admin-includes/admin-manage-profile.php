@@ -14,7 +14,7 @@ if(isset($_POST["editProfile"])) {
   */
   $userProfileData["user_pass"] = $_POST["user_password"];
   if(!empty($userProfileData["user_pass"])) {
-    //admin_update_user_pass($uid, $userProfileData["user_pass"]);
+    //admin_update_user_pass($userProfileData["user_id"], $userProfileData["user_pass"]);
     unset($userProfileData["user_pass"]);
   } else {
     unset($userProfileData["user_pass"]);
@@ -36,8 +36,7 @@ if(isset($_POST["editProfile"])) {
 /**
 * End file upload check
 */
-  var_dump($userProfileData);
-  //admin_update_user($userProfileData);
+  admin_update_user($userProfileData);
 }
 
 ?>

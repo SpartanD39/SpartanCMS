@@ -32,6 +32,40 @@ function admin_get_user($uid) {
 
 function admin_update_user($userProfileData) {
 
+  $user_id = clean_input($userProfileData["user_id"]);
+  $user_email = clean_input($userProfileData["user_email"]);
+  $user_name = clean_input($userProfileData["user_name"]);
+  $user_tagline = clean_input($userProfileData["user_tagline"]);
+  $user_bio = clean_input($userProfileData["user_bio"]);
+  $user_avatar = clean_input($userProfileData["user_avatar"]);
+
+  $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+  $sql = "UPDATE users SET
+          user_email='{$user_email}',
+          user_name='{$user_name}',
+          user_tagline='{$user_tagline}',
+          user_bio='{$user_bio}'";
+  if(!empty($user_avatar)) {
+    $sql .= ",user_avatar='{$user_avatar}'";
+  }
+
+  $sql .= " WHERE user_id={$user_id}";
+
+  $result = $conn->query($sql);
+
+  if($result === TRUE) {
+		$retArray["status"] = 1;
+		$retArray["message"] = "<div class=\"alert alert-success alert-dismissible show\" role=\"alert\">Profile Updated!<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span>  </button> </div><br/>";
+	} else {
+		$retArray["status"] = 0;
+		$retArray["message"] = "<div class=\"alert alert-danger alert-dismissible show\" role=\"alert\">Error!" . $conn->error . "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span>  </button> </div><br/>";
+	}
+
+  $conn->close();
+
+  return $retArray;
+
 }
 
 function delete_admin_user($uid) {
