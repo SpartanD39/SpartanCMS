@@ -25,7 +25,7 @@ if(isset($_POST["editProfile"])) {
   * needs to be updated later, setting the value to null if no file is uploaded,
   * or there is an error uploading the file.
   */
-  if($_FILES["user_avatar"]["error"] != 0 && $_FILES["user_avatar"]["error"] != 4) {
+  if($_FILES["user_avatar"]["error"] != 4) {
   $avatar_image_name = $_FILES['user_avatar']['name'];
 	$avatar_image_temp_name = $_FILES['user_avatar']['tmp_name'];
 	move_uploaded_file($avatar_image_temp_name,"../uploads/images/{$avatar_image_name}");
