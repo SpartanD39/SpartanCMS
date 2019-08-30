@@ -36,7 +36,8 @@ if(isset($_POST["editProfile"])) {
 /**
 * End file upload check
 */
-  admin_update_user($userProfileData);
+  $user_update_task = admin_update_user($userProfileData);
+  echo $user_update_task["message"];
 }
 
 ?>
@@ -48,6 +49,8 @@ if(isset($_POST["editProfile"])) {
 <?php
   if(isset($uid)){
     admin_display_user_manager($uid);
+  } else {
+    header("Location: /admin/admin-users.php");
   }
 ?>
 </div>

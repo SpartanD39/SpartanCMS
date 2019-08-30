@@ -10,14 +10,14 @@ function clean_input($data) {
 	$data = trim($data);
 	$data = stripslashes($data);
 	$data = htmlspecialchars($data);
-	$conn->real_escape_string($data);
+	$data = $conn->real_escape_string($data);
 	$conn->close();
-	return $data;	
+	return $data;
 }
 
 
 /**
-* Attempts to gather the visitors IP address. 
+* Attempts to gather the visitors IP address.
 * Only used in the comment functions at this time.
 * @returns string
 */
