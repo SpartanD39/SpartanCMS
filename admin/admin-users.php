@@ -16,18 +16,43 @@ include("admin-includes/admin-sidebar.php");
 			</div>
 		</div>
 		<!-- /.row -->
+		<div class="row">
+
+			<div class="col-lg-4">
+
+			</div>
+
+			<div class="col-lg-4">
+				<button class="btn btn-primary" href="/admin/admin-users.php?action=create"
+			</div>
+
+			<div class="col-lg-4">
+
+			</div>
+
+		</div>
+
     <div class="row">
     <?php
 
-      if(isset($_GET["action"]) && isset($_GET["uid"])) {
+      if(isset($_GET["action"])) {
 
         $action = htmlspecialchars($_GET["action"]);
-        $uid = htmlspecialchars($_GET["uid"]);
+				if(isset($_GET["uid"])) {
+					$uid = htmlspecialchars($_GET["uid"]);
+				} else {
+					$uid = 0;
+				}
+
 
         switch($action) {
           case "manage":
             include("admin-includes/admin-manage-profile.php");
             break;
+
+					case "create":
+						include("admin-includes/admin-create-user.php");
+						break;
 
           default:
             admin_display_users();
