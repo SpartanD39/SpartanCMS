@@ -17,14 +17,26 @@ function admin_create_user($userInfoArray) {
 
     $user_email = clean_input($userInfoArray["user_email"]);
 
-    $user_pass = clean_input($userInfoArray["user_pass"]);
+    $user_pass = uniqid();
 
     $cryptPass = password_hash($user_pass, PASSWORD_DEFAULT);
 
     $userSql = "INSERT INTO users (user_name,user_email,user_pass) VALUES ('{$user_name}','{$user_email}','{$cryptPass}')";
 
     if($conn->query($userSql)) {
+
+      $mailTo = $user_email;
+
+      $mailSubject = "New registration details from spartancms.local";
+
+      $mailMessage = "You've been granted acccess to the site mentioned in the subject of this email. \r\nYour usename is {$user_name}.\r\nYour password is {$user_pass}.\r\nIt is highly encouraged that you change your password as soon as possible via your profile edit screen.";
+
+      $mailHeaders = "From: admin@spartancms.local\r\nReply-To: noreply@spartancms.local\r\nX-Mailer: PHP/" .phpversion();
+
+      mail($mailTo,$mailSubject,$mailMessage,$mailHeaders);
+
       $retval = 1;
+
     } else {
       $retval = 0;
     }
@@ -284,7 +296,9 @@ echo<<<EOB
               <th scope="col">Avatar:</th>
               <th scope="col">Role:</th>
               <th scope="col">Status:</th>
-              <th scope="col"></th>
+              <th scope="col">
+              				<button class="btn btn-secondary"><a href="/admin/admin-users.php?action=create">Create New User</a></button>
+              			</th>
             </tr>
           </thead>
 

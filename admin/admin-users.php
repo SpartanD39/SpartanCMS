@@ -16,22 +16,6 @@ include("admin-includes/admin-sidebar.php");
 			</div>
 		</div>
 		<!-- /.row -->
-		<div class="row">
-
-			<div class="col-lg-4">
-
-			</div>
-
-			<div class="col-lg-4">
-				<button class="btn btn-primary" href="/admin/admin-users.php?action=create"
-			</div>
-
-			<div class="col-lg-4">
-
-			</div>
-
-		</div>
-
     <div class="row">
     <?php
 
