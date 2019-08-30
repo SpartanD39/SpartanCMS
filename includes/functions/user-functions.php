@@ -8,20 +8,27 @@ function validate_user_privs() {
 }
 
 function admin_create_user($userInfoArray) {
-
+  $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+  
   if(validate_new_user($userInfoArray)) {
-
-    $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
     $user_name = clean_input($userInfoArray["user_name"]);
 
     $user_email = clean_input($userInfoArray["user_email"]);
 
+    $user_date_reg = date('d-m-y H:i');
+
+    $user_avatar = "profile_placeholder300x300.png";
+
+    $user_role = "author";
+
+    $user_reg_status = "pending";
+
     $user_pass = uniqid();
 
     $cryptPass = password_hash($user_pass, PASSWORD_DEFAULT);
 
-    $userSql = "INSERT INTO users (user_name,user_email,user_pass) VALUES ('{$user_name}','{$user_email}','{$cryptPass}')";
+    $userSql = "INSERT INTO users (user_name,user_email,user_date_reg,user_avatar,user_reg_status,user_pass) VALUES ('{$user_name}','{$user_email}','{$user_date_reg}','{$user_avatar}','{$user_reg_status}','{$cryptPass}')";
 
     if($conn->query($userSql)) {
 
@@ -298,7 +305,7 @@ echo<<<EOB
               <th scope="col">Role:</th>
               <th scope="col">Status:</th>
               <th scope="col">
-              				<button class="btn btn-secondary"><a href="/admin/admin-users.php?action=create">Create New User</a></button>
+              				<a href="/admin/admin-users.php?action=create"><button class="btn btn-secondary">Create User</button></a>
               			</th>
             </tr>
           </thead>
