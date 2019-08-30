@@ -18,10 +18,10 @@ function admin_change_comment_status($comment_id, $comment_status){
 	$retArray = [];
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	$comment_id = clean_input($comment_id);
-	if($comment_status == "Pending") {
-		$new_comment_status = "Approved";
-	} elseif($comment_status == "Approved") {
-		$new_comment_status = "Pending";
+	if($comment_status == "pending") {
+		$new_comment_status = "approved";
+	} elseif($comment_status == "approved") {
+		$new_comment_status = "pending";
 	} else {
 		die("Nice try!");
 	}
