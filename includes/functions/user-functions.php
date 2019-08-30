@@ -9,6 +9,33 @@ function validate_user_privs() {
 
 function admin_create_user($userInfoArray) {
 
+  if(validate_new_user($userInfoArray)) {
+
+    $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+    $user_name = clean_input($userInfoArray["user_name"]);
+
+    $user_email = clean_input($userInfoArray["user_email"]);
+
+    $user_pass = clean_input($userInfoArray["user_pass"]);
+
+    $cryptPass = password_hash($user_pass, PASSWORD_DEFAULT);
+
+    $userSql = "INSERT INTO users (user_name,user_email,user_pass) VALUES ('{$user_name}','{$user_email}','{$cryptPass}')";
+
+    if($conn->query($userSql)) {
+      $retval = 1;
+    } else {
+      $retval = 0;
+    }
+
+  } else {
+    $retval = 0;
+  }
+
+  $conn->close();
+  return $retval;
+
 }
 
 function validate_new_user($userInfoArray) {
@@ -32,7 +59,7 @@ function validate_new_user($userInfoArray) {
   $conn->close();
 
   return $retval;
-  
+
 }
 
 function admin_get_user($uid) {
@@ -150,7 +177,7 @@ function admin_update_user_pass($uid, $oldPass, $newPass) {
 
   $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-  $getPassSQL = "SELECT user_password FROM users WHERE user_id={$uid}"
+  $getPassSQL = "SELECT user_password FROM users WHERE user_id={$uid}";
   $getPassRes = $conn->query($getPassSQL);
   if($getPassRes->num_rows == 1) {
     $hashedPass = $getPassRes->fetch_array(MYSQLI_ASSOC);
@@ -191,7 +218,7 @@ function login_validate_user_pass($username, $userpass) {
 
   $passRes = $conn->query($passSql);
 
-  if($passRes->num_rows == 1 {
+  if($passRes->num_rows == 1) {
     $passCrypt = $passRes->fetch_array(MYSQLI_ASSOC);
     if(password_verify($userpass, $passCrypt)) {
       $retval = 1;
@@ -324,7 +351,7 @@ echo <<<EOHTML
       	<label for="user_bio">About You:</label>
       	<textarea class="form-control user-bio" id="user_bio" name="user_bio" rows="15" style="max-width:500px;">
 {$user["user_bio"]}
-      	</textarea>
+        </textarea>
       </div>
 
     </div>
