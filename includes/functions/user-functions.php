@@ -143,8 +143,20 @@ function admin_update_user($userProfileData) {
 
 }
 
-function delete_admin_user($uid) {
+function admin_delete_user($uid) {
 
+  $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+  $uid = clean_input($uid);
+
+  $sql = "DELETE FROM users where user_id={$uid}";
+
+  if($conn->query($sql)) {
+    header("Location: /admin/admin-users.php");
+  } else {
+    echo "<div class=\"alert alert-danger alert-dismissible show\" role=\"alert\">Error!" . $conn->error . "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span>  </button> </div><br/>";
+  }
+  $conn->close();
 }
 
 /**
@@ -399,7 +411,6 @@ echo <<<EOHTML
 
         <br/>
 
-        <input type="hidden" id="user_id" name="user_id" value="{$user["user_id"]}">
         <button class="btn btn-default" type="submit" name="editProfile" value="editProfile">Update profile</button>
         <button class="btn btn-danger pull-right confirmProfileDelete" type="submit" name="deleteProfile" value="deleteProfile">Delete profile</button>
 
@@ -410,6 +421,8 @@ echo <<<EOHTML
 
 </form>
 EOHTML;
+
+return $user["user_id"];
 }
 
  ?>

@@ -1,7 +1,8 @@
 <?php
+$uid_safe = $uid;
 if(isset($_POST["editProfile"])) {
 
-  $userProfileData["user_id"] = $_POST["user_id"];
+  $userProfileData["user_id"] = $uid_safe;
   $userProfileData["user_email"] = $_POST["user_email"];
   $userProfileData["user_name"] = $_POST["user_name"];
   $userProfileData["user_tagline"] = $_POST["user_tagline"];
@@ -38,6 +39,8 @@ if(isset($_POST["editProfile"])) {
 */
   $user_update_task = admin_update_user($userProfileData);
   echo $user_update_task["message"];
+} elseif (isset($_POST["deleteProfile"])) {
+  admin_delete_user($uid_safe);
 }
 
 ?>
@@ -48,6 +51,7 @@ if(isset($_POST["editProfile"])) {
 <div class="col-lg-6">
 <?php
   if(isset($uid)){
+
     admin_display_user_manager($uid);
   } else {
     header("Location: /admin/admin-users.php");
