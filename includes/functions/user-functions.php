@@ -162,6 +162,41 @@ function admin_delete_user($uid) {
   $conn->close();
 }
 
+function admin_change_user_status($uid, $currentStatus) {
+
+  $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+  $uid = clean_input($uid);
+  $currentStatus = clean_input($currentStatus);
+
+  /**
+  * Check what our current status is, and set the inverse of that for now. Two
+  * status' - active and pending.
+  */
+  if($currentStatus == "active") {
+    $newStatus = "pending";
+  } elseif ($currentStatus == "pending") {
+    $newStatus = "active";
+  } else {
+    die("Critical application error when updating user status!");
+  }
+
+  $sql = "UPDATE users SET user_reg_status='{$newStatus}' WHERE user_id={$uid}";
+
+  $result = $conn->query($sql);
+
+  if($result === TRUE) {
+    $retArray["status"] = 1;
+    $retArray["message"] = "<div class=\"alert alert-success alert-dismissible show\" role=\"alert\">User Updated!<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span>  </button> </div><br/>";
+  } else {
+    $retArray["status"] = 0;
+    $retArray["message"] = "<div class=\"alert alert-danger alert-dismissible show\" role=\"alert\">Error!" . $conn->error . "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span>  </button> </div><br/>";
+  }
+
+  $conn->close();
+  return $retArray;
+
+}
+
 /**
 * WARNING! BELOW ARE USER-DEFINED LOGIN AND PASSWORD FUNCTIONS
 * DO NOT MODIFY THESE FUNCTIONS UNLESS YOU HAVE A VERY COMPELLING
@@ -319,6 +354,7 @@ echo<<<EOB
               <th scope="col">Avatar:</th>
               <th scope="col">Role:</th>
               <th scope="col">Status:</th>
+              <th scope="col"></th>
               <th scope="col">
               				<a href="/admin/admin-users.php?action=create"><button class="btn btn-secondary">Create User</button></a>
               			</th>
@@ -337,6 +373,7 @@ EOB;
     <td><img src="../uploads/images/{$user["user_avatar"]}" class="avatar-image"/></td>
     <td>{$user["user_role"]}</td>
     <td>{$user["user_reg_status"]}</td>
+    <td><a href=/admin/admin-users.php?action=updateStatus&uid={$user["user_id"]}&status={$user["user_reg_status"]}>Change Status</a></td>
     <td><a href="/admin/admin-users.php?action=manage&uid={$user["user_id"]}">Manage</a></td>
     </tr>
 EOB;
@@ -432,7 +469,6 @@ echo <<<EOHTML
 </form>
 EOHTML;
 
-return $user["user_id"];
 }
 
  ?>

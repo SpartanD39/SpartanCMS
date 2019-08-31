@@ -38,6 +38,11 @@ include("admin-includes/admin-sidebar.php");
 						include("admin-includes/admin-create-user.php");
 						break;
 
+					case "updateStatus":
+						$currentStatus = $_GET["status"];
+						$updateTask = admin_change_user_status($uid, $currentStatus);
+						echo $updateTask ["message"];
+
           default:
             admin_display_users();
         }

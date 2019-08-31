@@ -22,6 +22,7 @@ EOHTML;
 
 <div class="col-lg-6">
   <h4>Create a new user below. Once submitted, an email will be sent to the user with their login credentials.</h4>
+  <div class="alert alert-danger alert-dismissible show" id="userFormStatus" role="alert">Error making profile!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>  </button> </div><br/>
   <form class="form" action="" method="POST" id="userCreateForm">
 
     <div class=form-group>
