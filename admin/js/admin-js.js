@@ -18,25 +18,18 @@ $(".confirmstatus").click(function(){
 	return confirm('Are you sure you want to change this comments status?');
 });
 
-$('#userProfileForm','#userCreateForm').submit(function() {
+function passwords_match() {
+	var password = $("#user_password").val();
+	var password_confirm = $("#user_password_confirm").val();
+	var retval = false;
+	console.log(password);
+	console.log(password_confirm);
 
-	var pass = $('#user_password').val();
-	var pass_confirm = $('#user_password_confirm').val();
-	var allowsubmit = false;
-
-	if(pass !== undefined  && pass_confirm !== undefined) {
-		if(pass == pass_confirm) {
-			allowsubmit = true;
-		} else {
-			allowsubmit = false;
-		}
-		return allowsubmit;
+	if(password != password_confirm) {
+		alert('Passwords do not match');
+		retval = false;
 	} else {
-		return true;
+		retval =  true;
 	}
-
-
-
-
-
-});
+	return retval;
+}
