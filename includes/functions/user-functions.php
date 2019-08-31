@@ -24,7 +24,7 @@ function admin_create_user($userInfoArray) {
 
     $user_reg_status = "pending";
 
-    $user_pass = clean_input($userInfoArray["user_password"]);;
+    $user_pass = clean_input($userInfoArray["user_password"]);
 
     $cryptPass = password_hash($user_pass, PASSWORD_DEFAULT);
 
