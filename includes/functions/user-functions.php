@@ -24,7 +24,7 @@ function admin_create_user($userInfoArray) {
 
     $user_reg_status = "pending";
 
-    $user_pass = uniqid();
+    $user_pass = clean_input($userInfoArray["user_password"]);;
 
     $cryptPass = password_hash($user_pass, PASSWORD_DEFAULT);
 
@@ -43,13 +43,16 @@ function admin_create_user($userInfoArray) {
 
       mail($mailTo,$mailSubject,$mailMessage,$mailHeaders);
 */
+      //return true if the user is created
       $retval = 1;
 
     } else {
+      //retrun false if there's an error creating the user
       $retval = 0;
     }
 
   } else {
+    //return false if the user already exists.
     $retval = 0;
   }
 
@@ -345,6 +348,13 @@ echo<<<EOB
 EOB;
 
 }
+
+/**
+* Displays the users profile and gives options to manage it.
+* @param int $uid user ID to get.
+*
+* @return void
+*/
 
 function admin_display_user_manager(int $uid) {
 

@@ -18,7 +18,7 @@ $(".confirmstatus").click(function(){
 	return confirm('Are you sure you want to change this comments status?');
 });
 
-$('#userProfileForm').submit(function() {
+$('#userProfileForm','#userCreateForm').submit(function() {
 
 	var pass = $('#user_password').val();
 	var pass_confirm = $('#user_password_confirm').val();
