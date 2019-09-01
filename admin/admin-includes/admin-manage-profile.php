@@ -13,12 +13,11 @@ if(isset($_POST["editProfile"])) {
   * then call a function to update the password in the database separately,
   * if not, we set the value to null and then drop it entirely.
   */
-  $userProfileData["user_pass"] = $_POST["user_password"];
-  if(!empty($userProfileData["user_pass"])) {
-    //admin_update_user_pass($userProfileData["user_id"], $userProfileData["user_pass"]);
-    unset($userProfileData["user_pass"]);
+
+  if(!empty($_POST["user_password"])) {
+    $userProfileData["user_pass"] = $_POST["user_password"];
   } else {
-    unset($userProfileData["user_pass"]);
+    $userProfileData["user_pass"] = "";
   }
 
   /**

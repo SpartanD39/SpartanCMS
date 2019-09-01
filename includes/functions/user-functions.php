@@ -116,6 +116,7 @@ function admin_update_user($userProfileData) {
   $user_tagline = clean_input($userProfileData["user_tagline"]);
   $user_bio = clean_input($userProfileData["user_bio"]);
   $user_avatar = clean_input($userProfileData["user_avatar"]);
+  $user_pass = clean_input($userProfileData["user_pass"]);
 
   $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
@@ -126,6 +127,10 @@ function admin_update_user($userProfileData) {
           user_bio='{$user_bio}'";
   if(!empty($user_avatar)) {
     $sql .= ",user_avatar='{$user_avatar}'";
+  }
+
+  if(!empty($user_pass)) {
+    $sql .=",user_pass='$user_pass'";
   }
 
   $sql .= " WHERE user_id={$user_id}";
@@ -443,7 +448,7 @@ echo <<<EOHTML
 
     <div class="col-lg-6">
       <div class="form-group">
-        <label for="user_password">Change Password:</label>
+        <label for="user_password">New Password:</label>
         <input type="password" class="form-control" id="user_password" name="user_password">
         <label for="user_password_confirm">Confirm Password:</label>
         <input type="password" class="form-control" id="user_password_confirm" name="user_password_confirm">
@@ -459,8 +464,7 @@ echo <<<EOHTML
         <br/>
 
         <button class="btn btn-default" type="submit" name="editProfile" value="editProfile">Update profile</button>
-        <button class="btn btn-danger pull-right confirmProfileDelete" type="submit" name="deleteProfile" value="deleteProfile">Delete profile</button>
-
+        
       </div>
     </div>
 
