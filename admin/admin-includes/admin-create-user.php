@@ -50,7 +50,7 @@ EOHTML;
     </div>
 
 
-    <button class="btn btn-primary"  type="submit" name="createUser" id="createUserBtn">Create User</button>
+    <button class="btn btn-primary" type="submit" name="createUser" id="createUserBtn">Create User</button>
 
   </form>
 </div>

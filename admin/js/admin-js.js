@@ -22,8 +22,6 @@ $("#userCreateForm").submit(function(){
 	var password = $("#user_password").val();
 	var password_confirm = $("#user_password_confirm").val();
 	var retval = false;
-	console.log(password);
-	console.log(password_confirm);
 
 	if(password != password_confirm) {
 		alert('Passwords do not match');
