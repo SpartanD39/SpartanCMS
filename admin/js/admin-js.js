@@ -18,7 +18,7 @@ $(".confirmstatus").click(function(){
 	return confirm('Are you sure you want to change this comments status?');
 });
 
-function passwords_match() {
+$("#userCreateForm").submit(function(){
 	var password = $("#user_password").val();
 	var password_confirm = $("#user_password_confirm").val();
 	var retval = false;
@@ -32,4 +32,4 @@ function passwords_match() {
 		retval =  true;
 	}
 	return retval;
-}
+});

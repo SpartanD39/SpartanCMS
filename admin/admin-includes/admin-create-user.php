@@ -27,7 +27,7 @@ EOHTML;
 
   <br/>
 
-  <form class="form" action="" method="POST" id="userCreateForm" onsubmit="passwords_match()">
+  <form class="form" action="" method="POST" id="userCreateForm">
 
     <div class=form-group>
       <label for="user_name">Username:</label>
@@ -45,12 +45,12 @@ EOHTML;
     </div>
 
     <div class=form-group>
-      <label for="user_email">User password:</label>
+      <label for="user_password_confirm">User password confirm:</label>
       <input type="password" name="user_password_confirm" id="user_password_confirm" required />
     </div>
 
 
-    <button class="btn btn-primary" name="createUser" id="createUserBtn">Create User</button>
+    <button class="btn btn-primary"  type="submit" name="createUser" id="createUserBtn">Create User</button>
 
   </form>
 </div>
