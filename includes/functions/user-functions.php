@@ -401,7 +401,7 @@ EOB;
 function admin_display_user_manager(int $uid) {
 
 $user = admin_get_user($uid);
-$userRoles = array("author", "subscriber", "moderator");
+$userRoles = array("author", "subscriber", "moderator", "super-admin");
 echo <<<EOHTML
 <form class="form" action="" method="POST" id="userProfileForm" enctype="multipart/form-data">
 
