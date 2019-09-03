@@ -16,7 +16,7 @@ function admin_create_user($userInfoArray) {
 
     $user_email = clean_input($userInfoArray["user_email"]);
 
-    $user_date_reg = date('d-m-y H:i');
+    $user_date_reg = date('y-m-d H:i');
 
     $user_avatar = "profile_placeholder300x300.png";
 
