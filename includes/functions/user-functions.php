@@ -424,21 +424,6 @@ echo <<<EOHTML
       	<input type="file" class="form-control-file" id="user_avatar" name="user_avatar" value="{$user["user_avatar"]}">
       </div>
 
-      <div class="form-group">
-      	<label for="user_role">Role/Privileges:</label>
-      	<select name="user_role" id="user_role">
-EOHTML;
-          foreach($userRoles as $role) {
-            if ($role == $user["user_role"]) {
-              echo "<option selected=\"selected\" value=\"$role\">$role</option>";
-            } else {
-              echo "<option value=\"$role\">$role</option>";
-            }
-          }
-echo<<<EOHTML
-        </select>
-      </div>
-
     </div>
 
     <div class="col-lg-6">
@@ -462,6 +447,21 @@ echo<<<EOHTML
   <div class="form-row">
 
     <div class="col-lg-6">
+
+    <div class="form-group">
+      <label for="user_role">Role/Privileges:</label>
+      <select name="user_role" id="user_role">
+EOHTML;
+        foreach($userRoles as $role) {
+          if ($role == $user["user_role"]) {
+            echo "<option selected=\"selected\" value=\"$role\">$role</option>";
+          } else {
+            echo "<option value=\"$role\">$role</option>";
+          }
+        }
+echo<<<EOHTML
+      </select>
+    </div>
 
       <div class="form-group">
         <label for="user_password">New Password:</label>
