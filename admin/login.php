@@ -35,41 +35,45 @@ include("../includes/includes.php")
 
           <div class="row">
 
-            <div class="col-lg-3">
+            <div class="col-lg-4">
 
             </div>
 
-            <div class="col-lg-6">
+            <div class="col-lg-4">
 
               <h3 class="text-center">Welcome! Enter your login details below:</h3>
 
-              <form class="form-horizontal" id="loginForm" action="" method="POST">
+              <div class="well">
 
-                <div class="form-row">
-                  <div class="col">
-                    <div class="form-group">
-                      <label for="user_name">Username:</label>
-                      <input type="text" class="form-control" name="user_name" id="user_name" />
+                <form class="form-horizontal" id="loginForm" action="" method="POST">
+
+                  <div class="form-row">
+                    <div class="col">
+                      <div class="form-group">
+                        <label for="user_name">Username:</label>
+                        <input type="text" class="form-control" name="user_name" id="user_name" />
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div class="form-row">
-                  <div class="col">
-                    <div class="form-group">
-                      <label for="user_pass">Password:</label>
-                      <input type="text" class="form-control" name="user_pass" id="user_pass" />
+                  <div class="form-row">
+                    <div class="col">
+                      <div class="form-group">
+                        <label for="user_pass">Password:</label>
+                        <input type="password" class="form-control" name="user_pass" id="user_pass" />
+                      </div>
                     </div>
                   </div>
-                </div>
 
-              <button class="btn" type="submit" name="login" value="login">Login</button>
+                <button class="btn" type="submit" name="login" value="login">Login</button>
 
-              </form>
+                </form>
+
+              </div>
 
             </div>
 
-            <div class="col-lg-3">
+            <div class="col-lg-4">
 
             </div>
 
