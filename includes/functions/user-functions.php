@@ -39,7 +39,7 @@ function admin_create_user($userInfoArray) {
 
       $mailMessage = "You've been granted acccess to the site mentioned in the subject of this email. \r\nYour usename is {$user_name}.\r\nYour password is {$user_pass}.\r\nIt is highly encouraged that you change your password as soon as possible via your profile edit screen.";
 
-      $mailHeaders = "From: admin@spartancms.local\r\nReply-To: noreply@spartancms.local\r\nX-Mailer: PHP/" .phpversion();
+      $mailHeaders = "From: noreply@spartancms.local\r\nReply-To: noreply@spartancms.local\r\nX-Mailer: PHP/" .phpversion();
 
       mail($mailTo,$mailSubject,$mailMessage,$mailHeaders);
 */
@@ -289,7 +289,7 @@ function login_validate_user_pass($username, $userpass) {
   $username = clean_input($username);
   $userpass = clean_input($userpass);
 
-  $passSql = "SELECT user_pass FROM users WHERE user_name='{$username}' OR user_name='{$username}' LIMIT 1";
+  $passSql = "SELECT user_pass FROM users WHERE user_name='{$username}' OR user_email='{$username}' LIMIT 1";
 
   $passRes = $conn->query($passSql);
 
