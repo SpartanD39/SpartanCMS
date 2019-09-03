@@ -289,19 +289,22 @@ function login_validate_user_pass($username, $userpass) {
   $username = clean_input($username);
   $userpass = clean_input($userpass);
 
-  $passSql = "SELECT user_pass FROM users WHERE user_name='{$username}' OR user_email='{$username}' LIMIT 1";
+  $passSql = "SELECT user_id, user_pass FROM users WHERE user_name='{$username}' OR user_email='{$username}' LIMIT 1";
 
   $passRes = $conn->query($passSql);
 
   if($passRes->num_rows == 1) {
     $passCrypt = $passRes->fetch_array(MYSQLI_ASSOC);
     if(password_verify($userpass, $passCrypt["user_pass"])) {
-      $retval = 1;
+      $retval["status"] = 1;
+      $retval["uid"] = $passCrypt["user_id"];
     } else {
-      $retval = 0;
+      $retval["status"] = 0;
+      $retval["uid"] = null;
     }
   } else {
-    $retval = 0;
+    $retval["status"] = 0;
+    $retval["uid"] = null;
   }
 
   $conn->close();
@@ -309,7 +312,7 @@ function login_validate_user_pass($username, $userpass) {
 
 }
 
-function create_user_session($username, $userpass) {
+function create_user_session($userId) {
 
 }
 
