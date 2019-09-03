@@ -237,3 +237,8 @@ ul.alert-dropdown {
 #user_bio {
   resize: none;
 }
+
+#login-wrapper {
+  padding-left: 5%;
+  padding-right: 5%;
+}
