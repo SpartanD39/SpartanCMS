@@ -14,7 +14,8 @@ if(isset($_POST["login"])) {
 
     if ($loginTask["status"] === 1) {
 
-      echo "Logged in!";
+      $sessionTask = create_user_session($loginTask["uid"]);
+      var_dump($sessionTask);
 
     } else {
 
