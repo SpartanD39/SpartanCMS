@@ -1,6 +1,20 @@
 <?php
 ob_start();
 include("../includes/includes.php");
+
+if(isset($_POST["login"])) {
+  if(isset($_POST["user_name"]) && isset($_POST["user_pass"])) {
+    $user_name = $_POST["user_name"];
+    $user_pass = $_POST["user_pass"];
+
+    if (login_validate_user_pass($user_name, $user_pass)) {
+      echo "Logged in!";
+    } else {
+      echo "Something is borked!";
+    }
+  }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

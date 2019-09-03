@@ -295,7 +295,7 @@ function login_validate_user_pass($username, $userpass) {
 
   if($passRes->num_rows == 1) {
     $passCrypt = $passRes->fetch_array(MYSQLI_ASSOC);
-    if(password_verify($userpass, $passCrypt)) {
+    if(password_verify($userpass, $passCrypt["user_pass"])) {
       $retval = 1;
     } else {
       $retval = 0;

@@ -26,12 +26,12 @@
                     <h4>Login</h4>
             					<form action="/admin/login.php" method="POST">
                         <div class="form-group">
-                          <input type="text" class="form-control" placeholder="Your username"/>
+                          <input type="text" class="form-control" id="user_name" name="user_name" placeholder="Your username"/>
                         </div>
 
                         <div class="input-group">
-                          
-            						<input name="user_pass" type="password" class="form-control" placeholder="Your password">
+
+            						<input id="user_pass" name="user_pass" type="password" class="form-control" placeholder="Your password">
 
             						<span class="input-group-btn">
 
