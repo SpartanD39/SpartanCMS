@@ -313,8 +313,27 @@ function login_validate_user_pass($username, $userpass) {
 }
 
 function create_user_session($userId) {
-
+  $userInfo = admin_get_user($userId);
+  $loggedIP = get_client_ip();
+  $userAgent = $_SERVER['HTTP_USER_AGENT'];
+  $fingerprint = hash_hmac("sha256", $userAgent, hash("sha256", $loggedIP, true));
+  $_SESSION["user_name"] =
 }
+
+/**
+*array(9)
+*{
+*["user_id"]=> string(2) "24"
+*["user_name"]=> string(5) "Sally"
+*["user_email"]=> string(18) "sally@nicelady.net"
+*["user_date_reg"]=> string(10) "2019-09-02"
+*["user_avatar"]=> string(30) "profile_placeholder300x300.png"
+*["user_tagline"]=> string(0) ""
+*["user_bio"]=> string(0) ""
+*["user_role"]=> string(6) "author" [
+*"user_reg_status"]=> string(7) "pending"
+*}
+*/
 
 /**
  * Gets all users from the database.
