@@ -1,6 +1,6 @@
 <?php
 ob_start();
-include("../includes/includes.php")
+include("../includes/includes.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
