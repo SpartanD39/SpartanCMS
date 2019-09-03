@@ -263,7 +263,7 @@ function admin_update_user_pass($uid, $oldPass, $newPass) {
 
   if(password_verify($oldPass, $hashedPass["user_pass"])) {
 
-    $updatePassSQL = "UPDATE users SET user_pass={$newPass} WHERE user_id={$uid}";
+    $updatePassSQL = "UPDATE users SET user_pass='{$newPass}' WHERE user_id={$uid}";
     $updatePassRes = $conn->query($updatePassSQL);
   } else {
     $conn->close();
@@ -401,7 +401,7 @@ EOB;
 function admin_display_user_manager(int $uid) {
 
 $user = admin_get_user($uid);
-
+$userRoles = array("author", "subscriber", "moderator");
 echo <<<EOHTML
 <form class="form" action="" method="POST" id="userProfileForm" enctype="multipart/form-data">
 
@@ -422,6 +422,21 @@ echo <<<EOHTML
       <div class="form-group">
       	<label for="user_avatar">Avatar:</label>
       	<input type="file" class="form-control-file" id="user_avatar" name="user_avatar" value="{$user["user_avatar"]}">
+      </div>
+
+      <div class="form-group">
+      	<label for="user_role">Role/Privileges:</label>
+      	<select name="user_role" id="user_role">
+EOHTML;
+          foreach($userRoles as $role) {
+            if ($role == $user["user_role"]) {
+              echo "<option selected=\"selected\" value=\"$role\">$role</option>";
+            } else {
+              echo "<option value=\"$role\">$role</option>";
+            }
+          }
+echo<<<EOHTML
+        </select>
       </div>
 
     </div>
@@ -447,15 +462,18 @@ echo <<<EOHTML
   <div class="form-row">
 
     <div class="col-lg-6">
+
       <div class="form-group">
         <label for="user_password">New Password:</label>
         <input type="password" class="form-control" id="user_password" name="user_password">
         <label for="user_password_confirm">Confirm Password:</label>
         <input type="password" class="form-control" id="user_password_confirm" name="user_password_confirm">
       </div>
+
     </div>
 
     <div class="col-lg-6">
+
       <div class="form-group">
 
         <label for="user_email">Your Email:</label>
@@ -464,8 +482,9 @@ echo <<<EOHTML
         <br/>
 
         <button class="btn btn-default" type="submit" name="editProfile" value="editProfile">Update profile</button>
-        
+
       </div>
+
     </div>
 
   </div>
