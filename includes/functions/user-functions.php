@@ -327,6 +327,10 @@ function create_user_session($userId) {
 
 }
 
+function validate_user_session($sessionData) {
+  
+}
+
 /**
 *array(9)
 *{
