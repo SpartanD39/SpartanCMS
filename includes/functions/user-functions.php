@@ -322,7 +322,7 @@ function create_user_session($userId) {
   $_SESSION["user_name"] = $userInfo["user_name"];
   $_SESSION["user_email"] = $userInfo["user_email"];
   $_SESSION["user_role"] = $userInfo["user_role"];
-  $_SESSION["fingerprint"] = $fingerprint
+  $_SESSION["fingerprint"] = $fingerprint;
   $_SESSION["last_active"] = time();
 
 }
