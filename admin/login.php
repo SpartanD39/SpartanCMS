@@ -1,4 +1,5 @@
 <?php
+session_start();
 ob_start();
 include("../includes/includes.php");
 
@@ -15,7 +16,7 @@ if(isset($_POST["login"])) {
     if ($loginTask["status"] === 1) {
 
       $sessionTask = create_user_session($loginTask["uid"]);
-      var_dump($_SESSION);
+      header("Location: /admin/index.php");
 
     } else {
 

@@ -313,6 +313,7 @@ function login_validate_user_pass($username, $userpass) {
 }
 
 function create_user_session($userId) {
+
   $userInfo = admin_get_user($userId);
   $loggedIP = get_client_ip();
   $userAgent = $_SERVER['HTTP_USER_AGENT'];
@@ -324,11 +325,29 @@ function create_user_session($userId) {
   $_SESSION["user_role"] = $userInfo["user_role"];
   $_SESSION["fingerprint"] = $fingerprint;
   $_SESSION["last_active"] = time();
+  $_SESSION["logged_in"] = true;
 
 }
 
-function validate_user_session($sessionData) {
-  
+function validate_user_session() {
+
+  $fingerprint = hash_hmac("sha256", $userAgent, hash("sha256", $loggedIP, true));
+  $timeout = 60 * 30;
+  if(
+    (isset($_SESSION["last_active"]) && $_SESSION["last_active"] < (time()-$timeout))
+    || (isset($_SESSION["fingerprint"]) && $_SESSION["fingerprint"] != $fingerprint)
+    || isset($_GET["logout"])
+  ) {
+    setcookie(session_name(), '', time()-3600, '/');
+    session_destroy();
+    return 0;
+  } else {
+    session_regenerate_id();
+    $_SESSION["last_active"] = time();
+    $_SESSION["fingerprint"] = $fingerprint;
+    return 1;
+  }
+
 }
 
 /**
