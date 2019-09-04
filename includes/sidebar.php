@@ -1,23 +1,46 @@
 <!-- Blog Sidebar Widgets Column -->
             <div class="col-md-4">
 
-				<?php 
-					
+				<?php
+
 				?>
                 <!-- Blog Search Well -->
                 <div class="well">
                     <h4>Blog Search</h4>
-					<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
-						<div class="input-group">
-						<input name="searchterm" type="text" class="form-control">
-						<span class="input-group-btn">
-							<button name="submit" value="submit" class="btn btn-default" type="submit">
-								<span class="glyphicon glyphicon-search"></span>
-							</button>
-						</span>
-						
-						</div>
-					</form>
+            					<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
+            						<div class="input-group">
+            						<input name="searchterm" type="text" class="form-control">
+            						<span class="input-group-btn">
+            							<button name="submit" value="submit" class="btn btn-default" type="submit">
+            								<span class="glyphicon glyphicon-search"></span>
+            							</button>
+            						</span>
+
+            						</div>
+            					</form>
+                    <!-- /.input-group -->
+                </div>
+
+                <!-- Blog Login Well -->
+                <div class="well">
+                    <h4>Login</h4>
+            					<form action="/admin/login.php" method="POST">
+                        <div class="form-group">
+                          <input type="text" class="form-control" id="user_name" name="user_name" placeholder="Your username"/>
+                        </div>
+
+                        <div class="input-group">
+
+            						<input id="user_pass" name="user_pass" type="password" class="form-control" placeholder="Your password">
+
+            						<span class="input-group-btn">
+
+            							<button name="login" value="login" class="btn btn-default" type="submit">Login</button>
+
+            						</span>
+
+                      </div>
+            				</form>
                     <!-- /.input-group -->
                 </div>
 
@@ -38,8 +61,8 @@
 											echo "<li>";
 											echo "<a href=\"index.php?id={$sidebarCat["cat_id"]}&view=category\">{$sidebarCat["cat_name"]}</a>";
 											echo "</li>";
-										}										
-									}									
+										}
+									}
 								?>
                             </ul>
                         </div>

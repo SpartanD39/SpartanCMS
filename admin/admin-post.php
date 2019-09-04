@@ -1,8 +1,8 @@
-<?php 
+<?php
 include("admin-includes/admin-header.php");
 include("admin-includes/admin-navbar.php");
 include("admin-includes/admin-sidebar.php");
-?> 
+?>
 
 <div id="page-wrapper">
    <div class=container-fluid">
@@ -11,13 +11,13 @@ include("admin-includes/admin-sidebar.php");
                 <div class="col-lg-12">
                     <h1 class="page-header">
                         Posts Manager
-                        <small>Hello Spartan!</small>
+                        <small>Hello <?php echo $_SESSION["user_name"];?>!</small>
                     </h1>
                 </div>
 			</div>
         <!-- /.row -->
         <div class="row">
-            
+
 
 <?php
 
@@ -29,20 +29,20 @@ if(isset($_GET['action']) && !empty($_GET['action'])) {
 	} else {
 		$post_id = NULL;
 	}
-	
+
 	switch($action) {
 		case "new":
 		include("admin-includes/admin-add-post.php");
 		break;
-		
+
 		case "edit":
 		include("admin-includes/admin-edit-post.php");
 		break;
-		
+
 		case "delete":
 		include("admin-includes/admin-delete-post.php");
 		break;
-				
+
 		default:
 		header("Location: admin-post.php");
 	}
@@ -78,15 +78,20 @@ if(isset($_GET['action']) && !empty($_GET['action'])) {
             <td>{$post["post_author"]}</td>
             <td>{$post["post_title"]}</td>
             <td>{$post["cat_name"]}</td>
-			<td>{$post["post_tags"]}</td>
-			<td><img src="../uploads/images/{$post["post_image"]}" alt="" class="img-thumbnail" style="height: auto; width: auto; max-height: 150px; max-width: 150px;"></td>
-			<td>{$post["post_status"]}</td>
-			<td>{$post["post_date"]}</td>
+			      <td>{$post["post_tags"]}</td>
+			      <td><img src="../uploads/images/{$post["post_image"]}" alt="" class="img-thumbnail" style="height: auto; width: auto; max-height: 150px; max-width: 150px;"></td>
+			      <td>{$post["post_status"]}</td>
+			      <td>{$post["post_date"]}</td>
             <td><a href="../index.php?id={$post["post_id"]}&view=post" target="_blank">View</a></td>
-            <td><a href="admin-post.php?id={$post["post_id"]}&action=edit">Edit</a></td>
-            <td><a href="admin-post.php?id={$post["post_id"]}&action=delete">Delete</a></td>
-        </tr>
 EOT;
+            if($_SESSION["user_id"] == $post["post_author_id"] || $_SESSION["user_role"] == "super-admin") {
+              echo "<td><a href=\"admin-post.php?id={$post["post_id"]}&action=edit\">Edit</a></td>";
+              echo "<td><a href=\"admin-post.php?id={$post["post_id"]}&action=delete\">Delete</a></td>";
+            } else {
+              echo "<td></td>";
+              echo "<td></td>";
+            }
+            echo "</tr>";
     }
 }
 ?>
@@ -99,4 +104,3 @@ EOT;
 <?php
 include("admin-includes/admin-footer.php");
 ?>
-

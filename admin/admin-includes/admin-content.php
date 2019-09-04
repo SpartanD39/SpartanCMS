@@ -6,12 +6,12 @@
                     <div class="col-lg-12">
                         <h1 class="page-header">
                             Admin Panel
-                            <small>Hello Spartan!</small>
+                            <small>Hello <?php echo $_SESSION["user_name"]; ?>!</small>
                         </h1>
                     </div>
                 </div>
                 <!-- /.row -->
-				
+
 				<div class="row">
 					<div class="col-lg-12">
 						<p>Welcome!</p>
@@ -22,4 +22,3 @@
             <!-- /.container-fluid -->
         </div>
         <!-- /#page-wrapper -->
-   

@@ -1,7 +1,6 @@
 <div class="col-lg-11">
 
-<?php 
-//TODO - Pull post from DB here and display below.
+<?php
 if(isset($_GET['id'])) {
 	$post_id = $_GET['id'];
 	$post = get_single_post($post_id);
@@ -25,19 +24,18 @@ if(isset($_POST["editPost"])) {
 	$post_complete["post_title"] = $_POST["post_title"];
 	$post_complete["post_author"] = $_POST["post_author"];
 	$post_complete["post_date"] = date('d-m-y H:i');
-	
 	$post_image_name = $_FILES['post_image']['name'];
 	$post_image_temp_name = $_FILES['post_image']['tmp_name'];
 	move_uploaded_file($post_image_temp_name,"../uploads/images/{$post_image_name}");
-	
+
 	$post_complete["post_image"] = $post_image_name;
-	
+
 	$post_complete["post_content"] = $_POST["post_content"];
 	$post_complete["post_comment_count"] = 0;
 	$post_complete["post_tags"] = $_POST["post_tags"];
 	$post_complete["post_status"] = $_POST["post_status"];
 	$post_complete["post_comment_status"] = $_POST["post_comment_status"];
-	
+
 	$post_task = edit_post($post_complete);
 	$post = get_single_post($post_id);
 	if($post_task["status"] == 1) {
@@ -54,7 +52,7 @@ if(isset($_POST["editPost"])) {
 
 <div class="form-group">
 	<label for="post_author">Author:</label>
-	<input type="text" class="form-control" id="post_author" name="post_author" value="<?php echo $post[0]["post_author"];?>">
+	<input type="text" class="form-control" id="post_author" name="post_author" value="<?php echo $post[0]["post_author"];?>" disabled>
 </div>
 
 <div class="form-group">
@@ -118,3 +116,5 @@ if(isset($_POST["editPost"])) {
 </form>
 </div>
 <!---nice--->
+<script type="text/javascript" src="admin-includes/tinymce/js/tinymce/tinymce.min.js"></script>
+<script type="text/javascript" src="js/admin-edit.js"></script>

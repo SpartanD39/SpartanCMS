@@ -1,24 +1,28 @@
 <div class="col-lg-11">
-<?php 
+<?php
 if(isset($_POST["addPost"])) {
 	$post_complete = [];
 	$post_complete["post_cat_id"] = $_POST["post_cat_id"];
 	$post_complete["post_title"] = $_POST["post_title"];
-	$post_complete["post_author"] = $_POST["post_author"];
+	$post_complete["post_author_id"] = $_SESSION["user_id"];
 	$post_complete["post_date"] = date('d-m-y H:i');
-	
+
 	$post_image_name = $_FILES['post_image']['name'];
 	$post_image_temp_name = $_FILES['post_image']['tmp_name'];
 	move_uploaded_file($post_image_temp_name,"../uploads/images/{$post_image_name}");
-	
+
+	if(empty($post_image_name)) {
+		$post_image_name = "placeholder_900x300.png";
+	}
+
 	$post_complete["post_image"] = $post_image_name;
-	
+
 	$post_complete["post_content"] = $_POST["post_content"];
 	$post_complete["post_comment_count"] = 0;
 	$post_complete["post_tags"] = $_POST["post_tags"];
 	$post_complete["post_status"] = $_POST["post_status"];
 	$post_complete["post_comment_status"] = $_POST["post_comment_status"];
-	
+
 	$post_task = create_post($post_complete);
 	if($post_task["status"] == 1) {
 		echo $post_task["message"];
@@ -32,7 +36,7 @@ if(isset($_POST["addPost"])) {
 
 <div class="form-group">
 	<label for="post_author">Author:</label>
-	<input type="text" class="form-control" id="post_author" name="post_author">
+	<input type="text" class="form-control" id="post_author" name="post_author" value="<?php echo $_SESSION["user_name"];?>" disabled>
 </div>
 
 <div class="form-group">
@@ -90,3 +94,5 @@ if(isset($_POST["addPost"])) {
 </form>
 </div>
 <!---nice--->
+<script type="text/javascript" src="admin-includes/tinymce/js/tinymce/tinymce.min.js"></script>
+<script type="text/javascript" src="js/admin-edit.js"></script>
