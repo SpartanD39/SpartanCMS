@@ -1,4 +1,4 @@
-<?php 
+<?php
 include("includes/header.php");
 ?>
 <!-- Page Content -->
@@ -8,12 +8,12 @@ include("includes/header.php");
 
 		<!-- Blog Entries Column -->
 		<div class="col-md-8">
-			
+
 			<?php
-			
+
 			if(isset($_POST["submit"]) && isset($_POST["searchterm"])) {
 					$searchterm = clean_input($_POST["searchterm"]);
-					
+
 					$searchResults = doSearch($searchterm);
 					displaySearch($searchResults);
 			} else {
@@ -22,24 +22,24 @@ include("includes/header.php");
 						case "post":
 						include("includes/post.php");
 						break;
-						
+
 						case "category":
 						include("includes/category.php");
 						break;
-						
+
 						default:
 							display_posts_front();
 						}
 					} else {
 						display_posts_front();
-					}						
+					}
 				}
 			?>
-			
+
 			<hr>
 		</div>
 
-<?php 
+<?php
 include("includes/sidebar.php");
 include("includes/footer.php");
 ?>

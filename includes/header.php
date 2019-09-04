@@ -1,5 +1,6 @@
 <?php
 session_start();
+ob_start();
 include("includes/includes.php");
 validate_user_session();
 ?>

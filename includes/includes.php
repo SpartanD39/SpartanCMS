@@ -1,6 +1,8 @@
 <?php
 define("DS", DIRECTORY_SEPARATOR);
 
+define("BASE_DIR", dirname(__DIR__, 1) . DS);
+
 define("CONFIG_DIR", dirname(__FILE__) . DS);
 
 define("FRONT_FUNCS_DIR", CONFIG_DIR . "functions" . DS);
