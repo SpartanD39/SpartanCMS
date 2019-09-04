@@ -4,13 +4,13 @@ echo<<<EOT
 	<span id="submitstatus" role="alert"></span>
 	<h4>Leave a Comment:</h4>
 	<form id="addcomment" role="form" action="includes/post-add-comment.php" method="POST">
-	
+
 		<div class="form-row">
 			<div class="form-group col-md-6">
 				  <input type="text" id="comment_author" name="comment_author" class="form-control" placeholder="Your name" required>
 			</div>
 			<div class="form-group  col-md-6">
-			  <input type="text" id="comment_email" name="comment_email" class="form-control" placeholder="Your email" required>
+			  <input type="email" id="comment_email" name="comment_email" class="form-control" placeholder="Your email" required>
 			</div>
 		</div>
 		<div class="form-row">
@@ -21,11 +21,12 @@ echo<<<EOT
 			<input type="hidden" id="post_id" name="post_id" class="form-control" value={$post_id}>
 			<br/>
 		</div>
-		
+
 		<button type="submit" class="btn btn-primary">Submit</button>
-		
+
 	</form>
 </div>
+<hr/>
 EOT;
 display_post_comments($post_id);
 ?>
