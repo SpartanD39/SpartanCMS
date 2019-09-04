@@ -25,18 +25,30 @@ if(isset($_GET["removeInstaller"]) && $_GET["removeInstaller"] == "true") {
 	rmdir($installDir);
 }
 if(isset($_POST["doInstaller"])) {
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> c7935abd7ebaca7d17f0b8979ffb8ae3b76e81ae
 	function clean_input($data) {
 		$data = trim($data);
 		$data = stripslashes($data);
 		$data = htmlspecialchars($data);
+<<<<<<< HEAD
 		return $data;
+=======
+		return $data;	
+>>>>>>> c7935abd7ebaca7d17f0b8979ffb8ae3b76e81ae
 	}
 	$DB_USER = clean_input($_POST["dbUser"]);
 	$DB_PASS = clean_input($_POST["dbPass"]);
 	$DB_NAME = clean_input($_POST["dbName"]);
 	$DB_HOST = clean_input($_POST["dbHost"]);
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> c7935abd7ebaca7d17f0b8979ffb8ae3b76e81ae
 	$user_name = clean_input($_POST["user_name"]);
 	$user_email = clean_input($_POST["user_email"]);
 	$user_pass = password_hash(clean_input($_POST["user_password"]),PASSWORD_DEFAULT);
@@ -44,6 +56,7 @@ if(isset($_POST["doInstaller"])) {
 	$user_avatar = "profile_placeholder300x300.png";
 	$user_role = "super-admin";
 	$user_reg_status = "active";
+<<<<<<< HEAD
 
 	$conn = new mysqli($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
 
@@ -52,6 +65,15 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
+=======
+	
+	$conn = new mysqli($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
+
+	$_CREATE_TABLES_SQL =<<<EOSQL
+
+SET time_zone = "+00:00";
+
+>>>>>>> c7935abd7ebaca7d17f0b8979ffb8ae3b76e81ae
 --
 -- Table structure for table `categories`
 --
@@ -183,7 +205,10 @@ ALTER TABLE `posts`
 --
 ALTER TABLE `users`
   MODIFY `user_id` int(3) NOT NULL AUTO_INCREMENT;
+<<<<<<< HEAD
 COMMIT;
+=======
+>>>>>>> c7935abd7ebaca7d17f0b8979ffb8ae3b76e81ae
 
 EOSQL;
 
@@ -206,23 +231,38 @@ if ($conn->connect_error) {
 if ($conn->multi_query($_CREATE_TABLES_SQL) === TRUE) {
 	$conn->close();
 	$conn = new mysqli($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
+<<<<<<< HEAD
 
 	$_CREATE_USER_SQL = "INSERT INTO users (user_name, user_email, user_pass, user_date_reg, user_avatar, user_role, user_reg_status) VALUES ('{$user_name}','{$user_email}','{$user_pass}','{$user_date_reg}','{$user_avatar}','{$user_role}','{$user_reg_status}')";
 
+=======
+	
+	$_CREATE_USER_SQL = "INSERT INTO users (user_name, user_email, user_pass, user_date_reg, user_avatar, user_role, user_reg_status) VALUES ('{$user_name}','{$user_email}','{$user_pass}','{$user_date_reg}','{$user_avatar}','{$user_role}','{$user_reg_status}')";
+	
+>>>>>>> c7935abd7ebaca7d17f0b8979ffb8ae3b76e81ae
 	if($conn->query($_CREATE_USER_SQL) === TRUE) {
 		echo<<<EOH
 		<br/>
 		<div class="row">
+<<<<<<< HEAD
 
 			<div class="col-md-3">
 
 			</div>
 
+=======
+			
+			<div class="col-md-3">
+			
+			</div>
+			
+>>>>>>> c7935abd7ebaca7d17f0b8979ffb8ae3b76e81ae
 			<div class="col-md-6">
 				<div class="alert alert-success" role="alert">
 					Tables and config file set up successfully! <a href="/installer/installer.php?removeInstaller=true">Click here to delete the installer and go to your homepage.</a>
 				</div>
 			</div>
+<<<<<<< HEAD
 
 			<div class="col-md-3">
 
@@ -230,6 +270,15 @@ if ($conn->multi_query($_CREATE_TABLES_SQL) === TRUE) {
 
 		</div>
 
+=======
+			
+			<div class="col-md-3">
+			
+			</div>
+			
+		</div>
+	
+>>>>>>> c7935abd7ebaca7d17f0b8979ffb8ae3b76e81ae
 EOH;
 
 	$cfgFile = fopen("../includes/db-config.php", "w");
@@ -243,16 +292,28 @@ define("DB_HOST","${DB_HOST}");
 EOF;
 	fwrite($cfgFile, $cfgEntry);
 	fclose($cfgFile);
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> c7935abd7ebaca7d17f0b8979ffb8ae3b76e81ae
 	} else {
 		echo "Error creating user: " . $conn->error;
 		echo<<<EOH
 		<div class="row">
+<<<<<<< HEAD
 
 			<div class="col-md-3">
 
 			</div>
 
+=======
+			
+			<div class="col-md-3">
+			
+			</div>
+			
+>>>>>>> c7935abd7ebaca7d17f0b8979ffb8ae3b76e81ae
 			<div class="col-md-6">
 				<div class="alert alert-danger" role="alert">
 					Table setup failed:
@@ -264,6 +325,7 @@ EOF;
 					Please report this issue to the dev!.
 				</div>
 			</div>
+<<<<<<< HEAD
 
 			<div class="col-md-3">
 
@@ -271,6 +333,15 @@ EOF;
 
 		</div>
 
+=======
+			
+			<div class="col-md-3">
+			
+			</div>
+			
+		</div>
+	
+>>>>>>> c7935abd7ebaca7d17f0b8979ffb8ae3b76e81ae
 EOH;
 	}
 
@@ -349,7 +420,11 @@ EOH;
 					<h3>Extension Check</h3>
 					<p>Below we check if we have the required extensions for this application to run.</p>
 					<p>If anything is missing, check your php extensions with a <a href="/installer/phpinfo.php" target="_blank">phpinfo page</a>, and contact your host if you're running into problems getting certain extensions loaded.</p>
+<<<<<<< HEAD
 
+=======
+					
+>>>>>>> c7935abd7ebaca7d17f0b8979ffb8ae3b76e81ae
 					<?php
 
 						$loaded_exts = get_loaded_extensions();
@@ -390,7 +465,11 @@ EOH;
 EOH;
 							array_push($goodMods, "0");
 						}
+<<<<<<< HEAD
 
+=======
+						
+>>>>>>> c7935abd7ebaca7d17f0b8979ffb8ae3b76e81ae
 						if(in_array("gd", $loaded_exts)) {
 							echo <<<EOH
 							<li class="list-group-item list-group-item-success">'gd' extension loaded.</li>
@@ -402,7 +481,11 @@ EOH;
 EOH;
 							array_push($goodMods, "0");
 						}
+<<<<<<< HEAD
 
+=======
+						
+>>>>>>> c7935abd7ebaca7d17f0b8979ffb8ae3b76e81ae
 						echo "</ul>";
 					?>
 
@@ -428,7 +511,11 @@ EOH;
 					<?php if(!in_array("0", $goodMods)) {?>
 					<p>Fill in the below form to set up your database and initial admin user to get going.</p>
 					<form class="form" action="" method="POST" id="installerForm">
+<<<<<<< HEAD
 
+=======
+						
+>>>>>>> c7935abd7ebaca7d17f0b8979ffb8ae3b76e81ae
 							<div class="form-group">
 
 								<label for="dbHost">Database Host</label>
@@ -492,7 +579,43 @@ EOH;
 								<small id="user_password_confirm-help" class="form-text text-muted">Just to make sure...</small>
 
 							</div>
+<<<<<<< HEAD
 
+=======
+							
+							<div class="form-group">
+							
+								<label for="user_name">Admin Username</label>
+								<input type="text" class="form-control" id="user_name" name="user_name" aria-describedby="user_name-help" required>
+								<small id="user_name-help" class="form-text text-muted">Your name</small>
+							
+							</div>
+							
+							<div class="form-group">
+							
+								<label for="user_email">Admin Email</label>
+								<input type="email" class="form-control" id="user_email" name="user_email" aria-describedby="user_email-help" required>
+								<small id="user_email-help" class="form-text text-muted">Your email address</small>
+							
+							</div>
+							
+							<div class="form-group">
+							
+								<label for="user_password">Your password</label>
+								<input type="password" class="form-control" id="user_password" name="user_password" aria-describedby="user_password-help" required>
+								<small id="user_password-help" class="form-text text-muted">Your password</small>
+							
+							</div>
+							
+							<div class="form-group">
+							
+								<label for="user_password_confirm">Confirm your password</label>
+								<input type="password" class="form-control" id="user_password_confirm" name="user_password_confirm" aria-describedby="user_password_confirm-help" required>
+								<small id="user_password_confirm-help" class="form-text text-muted">Just to make sure...</small>
+							
+							</div>
+							
+>>>>>>> c7935abd7ebaca7d17f0b8979ffb8ae3b76e81ae
 							<button type="submit" class="btn btn-dark" id="doInstaller" name="doInstaller">Submit</button>
 
 						</form>
