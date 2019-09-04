@@ -333,7 +333,7 @@ function validate_user_session() {
   if(
     (isset($_SESSION["last_active"]) && $_SESSION["last_active"] < (time()-$timeout))
     || (isset($_SESSION["fingerprint"]) && $_SESSION["fingerprint"] != $fingerprint)
-    || isset($_GET["logout"])
+    || ($_SESSION["logged_in"] != true)
   ) {
     setcookie(session_name(), '', time()-3600, '/');
     session_destroy();
@@ -345,6 +345,10 @@ function validate_user_session() {
     return true;
   }
 
+}
+
+function logout_user_session() {
+  session_destroy();
 }
 
 /**

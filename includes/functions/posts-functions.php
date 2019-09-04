@@ -230,7 +230,7 @@ function create_post($post_complete) {
 	$retArray = [];
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	//Clean up and create our internal variables to insert.
-    $post_cat_id = $conn->real_escape_string(clean_input($post_complete["post_cat_id"]));
+  $post_cat_id = $conn->real_escape_string(clean_input($post_complete["post_cat_id"]));
 	$post_title = $conn->real_escape_string(clean_input($post_complete["post_title"]));
 	$post_author = $conn->real_escape_string(clean_input($post_complete["post_author"]));
 	$post_date = $conn->real_escape_string(clean_input($post_complete["post_date"]));

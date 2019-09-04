@@ -3,6 +3,10 @@ session_start();
 ob_start();
 include("../includes/includes.php");
 
+if(isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] == true) {
+  header("Location: /admin/index.php");
+}
+
 if(isset($_POST["login"])) {
 
   if(isset($_POST["user_name"]) && isset($_POST["user_pass"])) {
@@ -16,10 +20,19 @@ if(isset($_POST["login"])) {
     if ($loginTask["status"] === 1) {
 
       create_user_session($loginTask["uid"]);
+      header("Location: /admin/index.php");
 
     } else {
 
-      echo "Something is borked!";
+      $loginMsg = <<<EOHTML
+      <div class="alert alert-danger alert-dismissible show" role="alert">
+       Sorry! Wrong login info!
+       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+       <span aria-hidden="true">&times;</span>
+       </button>
+      </div>
+       <br/>
+EOHTML;
 
     }
 
@@ -68,6 +81,8 @@ if(isset($_POST["login"])) {
             <div class="col-lg-4">
 
               <h3 class="text-center">Welcome! Enter your login details below:</h3>
+
+              <?php if(isset($loginMsg)) {echo $loginMsg;} ?>
 
               <div class="well">
 

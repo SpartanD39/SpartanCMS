@@ -2,7 +2,10 @@
 session_start();
 ob_start();
 include("../includes/includes.php");
-
+if(isset($_GET["logout"])) {
+	logout_user_session();
+	header("Location: /admin/login.php");
+}
 if(!validate_user_session()) {
 	header("Location: /admin/login.php");
 }
