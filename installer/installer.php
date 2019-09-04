@@ -45,7 +45,6 @@ if(isset($_POST["doInstaller"])) {
 	$user_avatar = "profile_placeholder300x300.png";
 	$user_role = "super-admin";
 	$user_reg_status = "active";
-<<<<<<< HEAD
 
 	$conn = new mysqli($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
 
