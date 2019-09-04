@@ -420,11 +420,15 @@ EOB;
     <td><img src="../uploads/images/{$user["user_avatar"]}" class="avatar-image"/></td>
     <td>{$user["user_role"]}</td>
     <td>{$user["user_reg_status"]}</td>
-    <td><a href=/admin/admin-users.php?action=updateStatus&uid={$user["user_id"]}&status={$user["user_reg_status"]}>Change Status</a></td>
-    <td><a href="/admin/admin-users.php?action=manage&uid={$user["user_id"]}">Manage</a></td>
+EOB;
+  if($_SESSION["user_role"] == "super-admin") {
+    echo "<td><a href=\"/admin/admin-users.php?action=updateStatus&uid={$user["user_id"]}&status={$user["user_reg_status"]}\">Change Status</a></td>";
+    echo "<td><a href=\"/admin/admin-users.php?action=manage&uid={$user["user_id"]}\">Manage</a></td>";
+  }
+echo<<<EOB
     </tr>
 EOB;
-  }
+}
 
 echo<<<EOB
   </tbody>
