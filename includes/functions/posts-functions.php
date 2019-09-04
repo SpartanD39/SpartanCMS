@@ -14,9 +14,9 @@ function get_all_posts(bool $onlypublic = false) {
 	$retArray = [];
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	if($onlypublic) {
-		$sql = "SELECT * FROM posts WHERE post_status='public';";
+		$sql = "SELECT posts.*, categories.cat_name, users.user_name AS post_author FROM posts INNER JOIN categories ON posts.post_cat_id=categories.cat_id INNER JOIN users ON posts.post_author_id=users.user_id WHERE post_status='public';";
 	} else {
-		$sql = "SELECT posts.*, categories.cat_name FROM posts INNER JOIN categories ON posts.post_cat_id=categories.cat_id";
+		$sql = "SELECT posts.*, categories.cat_name, users.user_name AS post_author FROM posts INNER JOIN categories ON posts.post_cat_id=categories.cat_id INNER JOIN users ON posts.post_author_id=users.user_id";
 	}
 	$result = $conn->query($sql);
 	if($result->num_rows > 0) {
@@ -232,7 +232,7 @@ function create_post($post_complete) {
 	//Clean up and create our internal variables to insert.
   $post_cat_id = $conn->real_escape_string(clean_input($post_complete["post_cat_id"]));
 	$post_title = $conn->real_escape_string(clean_input($post_complete["post_title"]));
-	$post_author = $conn->real_escape_string(clean_input($post_complete["post_author"]));
+	$post_author_id = $conn->real_escape_string(clean_input($post_complete["post_author_id"]));
 	$post_date = $conn->real_escape_string(clean_input($post_complete["post_date"]));
 	$post_image = $conn->real_escape_string(clean_input($post_complete["post_image"]));
 	$post_content = $conn->real_escape_string(clean_input($post_complete["post_content"]));
@@ -241,7 +241,7 @@ function create_post($post_complete) {
 	$post_status = $conn->real_escape_string(clean_input($post_complete["post_status"]));
 	$post_comment_status = $conn->real_escape_string(clean_input($post_complete["post_comment_status"]));
 
-	$sql = "INSERT INTO posts (post_cat_id, post_title, post_author, post_date, post_image, post_content, post_comment_count, post_tags, post_status, post_comment_status) VALUES ('{$post_cat_id}','{$post_title}','{$post_author}','{$post_date}','{$post_image}','{$post_content}','{$post_comment_count}','{$post_tags}','{$post_status}','{$post_comment_status}');";
+	$sql = "INSERT INTO posts (post_cat_id, post_title, post_author_id, post_date, post_image, post_content, post_comment_count, post_tags, post_status, post_comment_status) VALUES ('{$post_cat_id}','{$post_title}','{$post_author_id}','{$post_date}','{$post_image}','{$post_content}','{$post_comment_count}','{$post_tags}','{$post_status}','{$post_comment_status}');";
 	$result = $conn->query($sql);
 	if($result === TRUE) {
 		$retArray["status"] = 1;
@@ -270,7 +270,7 @@ function edit_post($post_complete) {
 	$post_id = $conn->real_escape_string(clean_input($post_complete["post_id"]));
   $post_cat_id = $conn->real_escape_string(clean_input($post_complete["post_cat_id"]));
 	$post_title = $conn->real_escape_string(clean_input($post_complete["post_title"]));
-	$post_author = $conn->real_escape_string(clean_input($post_complete["post_author"]));
+	$post_author_id = $conn->real_escape_string(clean_input($post_complete["post_author_id"]));
 	$post_date = $conn->real_escape_string(clean_input($post_complete["post_date"]));
 	$post_image = $conn->real_escape_string(clean_input($post_complete["post_image"]));
 	$post_content = $conn->real_escape_string(clean_input($post_complete["post_content"]));
@@ -278,7 +278,7 @@ function edit_post($post_complete) {
 	$post_tags = $conn->real_escape_string(clean_input($post_complete["post_tags"]));
 	$post_status = $conn->real_escape_string(clean_input($post_complete["post_status"]));
 
-	$sql = "UPDATE posts SET post_cat_id='{$post_cat_id}',post_title='{$post_title}',post_author='{$post_author}',post_date='{$post_date}',post_content='{$post_content}',post_tags='{$post_tags}',post_status='{$post_status}', post_comment_status='{$post_comment_status}'";
+	$sql = "UPDATE posts SET post_cat_id='{$post_cat_id}',post_title='{$post_title}',post_author_id='{$post_author_id}',post_date='{$post_date}',post_content='{$post_content}',post_tags='{$post_tags}',post_status='{$post_status}', post_comment_status='{$post_comment_status}'";
 
 	if(!empty($post_image)) {
 		$sql .= ",post_image='{$post_image}'";

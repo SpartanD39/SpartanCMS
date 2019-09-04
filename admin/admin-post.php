@@ -1,8 +1,8 @@
-<?php 
+<?php
 include("admin-includes/admin-header.php");
 include("admin-includes/admin-navbar.php");
 include("admin-includes/admin-sidebar.php");
-?> 
+?>
 
 <div id="page-wrapper">
    <div class=container-fluid">
@@ -17,7 +17,7 @@ include("admin-includes/admin-sidebar.php");
 			</div>
         <!-- /.row -->
         <div class="row">
-            
+
 
 <?php
 
@@ -29,20 +29,20 @@ if(isset($_GET['action']) && !empty($_GET['action'])) {
 	} else {
 		$post_id = NULL;
 	}
-	
+
 	switch($action) {
 		case "new":
 		include("admin-includes/admin-add-post.php");
 		break;
-		
+
 		case "edit":
 		include("admin-includes/admin-edit-post.php");
 		break;
-		
+
 		case "delete":
 		include("admin-includes/admin-delete-post.php");
 		break;
-				
+
 		default:
 		header("Location: admin-post.php");
 	}
@@ -99,4 +99,3 @@ EOT;
 <?php
 include("admin-includes/admin-footer.php");
 ?>
-

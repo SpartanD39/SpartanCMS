@@ -4,7 +4,7 @@ if(isset($_POST["addPost"])) {
 	$post_complete = [];
 	$post_complete["post_cat_id"] = $_POST["post_cat_id"];
 	$post_complete["post_title"] = $_POST["post_title"];
-	$post_complete["post_author"] = $_POST["post_author"];
+	$post_complete["post_author_id"] = $_SESSION["user_id"];
 	$post_complete["post_date"] = date('d-m-y H:i');
 
 	$post_image_name = $_FILES['post_image']['name'];
@@ -32,7 +32,7 @@ if(isset($_POST["addPost"])) {
 
 <div class="form-group">
 	<label for="post_author">Author:</label>
-	<input type="text" class="form-control" id="post_author" name="post_author">
+	<input type="text" class="form-control" id="post_author" name="post_author" value="<?php echo $_SESSION["user_name"];?>" disabled>
 </div>
 
 <div class="form-group">
