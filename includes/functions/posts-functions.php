@@ -113,7 +113,7 @@ function get_posts_by_cat($cat_id) {
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	$cat_id = clean_input($cat_id);
 	$cat_id = $conn->real_escape_string($cat_id);
-	$sql = "SELECT * FROM posts WHERE post_cat_id={$cat_id} AND post_status='public';";
+	$sql = "SELECT posts.*, categories.cat_name, users.user_name AS post_author FROM posts INNER JOIN categories ON posts.post_cat_id=categories.cat_id INNER JOIN users ON posts.post_author_id=users.user_id WHERE post_cat_id={$cat_id} AND post_status='public';";
 	$result = $conn->query($sql);
 	if($result->num_rows > 0) {
 		$retArray = $result->fetch_all(MYSQLI_ASSOC);

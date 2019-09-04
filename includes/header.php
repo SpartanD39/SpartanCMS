@@ -1,6 +1,7 @@
 <?php
 session_start();
 include("includes/includes.php");
+validate_user_session();
 ?>
 
 <!DOCTYPE html>
