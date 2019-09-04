@@ -1,6 +1,6 @@
 <div class="col-lg-11">
 
-<?php 
+<?php
 if(isset($_GET['id'])) {
 	$post_id = $_GET['id'];
 	$post = get_single_post($post_id);
@@ -117,3 +117,5 @@ if(isset($_POST["editPost"])) {
 </form>
 </div>
 <!---nice--->
+<script type="text/javascript" src="admin-includes/tinymce/js/tinymce/tinymce.min.js"></script>
+<script type="text/javascript" src="js/admin-edit.js"></script>

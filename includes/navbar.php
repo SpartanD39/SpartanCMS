@@ -14,8 +14,8 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    
-					<?php 
+
+					<?php
 						$categories = get_categories();
 						forEach ($categories as $category) {
 							echo "<li>";
@@ -23,10 +23,15 @@
 							echo "</li>";
 						}
 					?>
-					
-					<li>
-						<a href="admin/index.php">Admin</a>
-					</li>
+					<?php
+          if(isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] == true) {
+            echo<<<EOB
+            <li>
+  						<a href="admin/index.php">Admin</a>
+  					</li>
+EOB;
+          }
+           ?>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
