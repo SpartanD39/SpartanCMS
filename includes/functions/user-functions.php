@@ -331,6 +331,8 @@ function create_user_session($userId) {
 
 function validate_user_session() {
 
+  $loggedIP = get_client_ip();
+  $userAgent = $_SERVER['HTTP_USER_AGENT'];
   $fingerprint = hash_hmac("sha256", $userAgent, hash("sha256", $loggedIP, true));
   $timeout = 60 * 30;
   if(
@@ -340,12 +342,12 @@ function validate_user_session() {
   ) {
     setcookie(session_name(), '', time()-3600, '/');
     session_destroy();
-    return 0;
+    return false;
   } else {
     session_regenerate_id();
     $_SESSION["last_active"] = time();
     $_SESSION["fingerprint"] = $fingerprint;
-    return 1;
+    return true;
   }
 
 }

@@ -1,7 +1,12 @@
 <?php
 session_start();
 ob_start();
-include("../includes/includes.php")
+include("../includes/includes.php");
+
+if(!validate_user_session()) {
+	header("Location: /admin/login.php");
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

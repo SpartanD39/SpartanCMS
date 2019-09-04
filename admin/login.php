@@ -15,8 +15,7 @@ if(isset($_POST["login"])) {
 
     if ($loginTask["status"] === 1) {
 
-      $sessionTask = create_user_session($loginTask["uid"]);
-      header("Location: /admin/index.php");
+      create_user_session($loginTask["uid"]);
 
     } else {
 
