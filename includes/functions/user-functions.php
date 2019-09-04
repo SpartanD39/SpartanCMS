@@ -111,7 +111,7 @@ function admin_update_user($userProfileData) {
   $user_tagline = clean_input($userProfileData["user_tagline"]);
   $user_bio = clean_input($userProfileData["user_bio"]);
   $user_avatar = clean_input($userProfileData["user_avatar"]);
-  $user_pass = clean_input($userProfileData["user_pass"]);
+  $user_pass = password_hash(clean_input($userProfileData["user_pass"]), PASSWORD_DEFAULT);
 
   $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
@@ -399,7 +399,11 @@ echo<<<EOB
               <th scope="col">Status:</th>
               <th scope="col"></th>
               <th scope="col">
-              				<a href="/admin/admin-users.php?action=create"><button class="btn btn-secondary">Create User</button></a>
+EOB;
+              if($_SESSION["user_role"] == "super-admin") {
+                echo "<a href=\"/admin/admin-users.php?action=create\"><button class=\"btn btn-secondary\">Create User</button></a>";
+              }
+              echo<<<EOB
               			</th>
             </tr>
           </thead>
