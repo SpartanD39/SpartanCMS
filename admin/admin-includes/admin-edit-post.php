@@ -24,7 +24,6 @@ if(isset($_POST["editPost"])) {
 	$post_complete["post_title"] = $_POST["post_title"];
 	$post_complete["post_author"] = $_POST["post_author"];
 	$post_complete["post_date"] = date('d-m-y H:i');
-
 	$post_image_name = $_FILES['post_image']['name'];
 	$post_image_temp_name = $_FILES['post_image']['tmp_name'];
 	move_uploaded_file($post_image_temp_name,"../uploads/images/{$post_image_name}");
@@ -53,7 +52,7 @@ if(isset($_POST["editPost"])) {
 
 <div class="form-group">
 	<label for="post_author">Author:</label>
-	<input type="text" class="form-control" id="post_author" name="post_author" value="<?php echo $post[0]["post_author"];?>">
+	<input type="text" class="form-control" id="post_author" name="post_author" value="<?php echo $post[0]["post_author"];?>" disabled>
 </div>
 
 <div class="form-group">

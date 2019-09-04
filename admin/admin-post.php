@@ -11,7 +11,7 @@ include("admin-includes/admin-sidebar.php");
                 <div class="col-lg-12">
                     <h1 class="page-header">
                         Posts Manager
-                        <small>Hello Spartan!</small>
+                        <small>Hello <?php echo $_SESSION["user_name"];?>!</small>
                     </h1>
                 </div>
 			</div>

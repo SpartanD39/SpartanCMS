@@ -11,6 +11,10 @@ if(isset($_POST["addPost"])) {
 	$post_image_temp_name = $_FILES['post_image']['tmp_name'];
 	move_uploaded_file($post_image_temp_name,"../uploads/images/{$post_image_name}");
 
+	if(empty($post_image_name)) {
+		$post_image_name = "placeholder_900x300.png";
+	}
+
 	$post_complete["post_image"] = $post_image_name;
 
 	$post_complete["post_content"] = $_POST["post_content"];

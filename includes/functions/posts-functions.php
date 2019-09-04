@@ -88,7 +88,7 @@ function get_single_post($post_id) {
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	$post_id = clean_input($post_id);
 	$post_id = $conn->real_escape_string($post_id);
-	$sql = "SELECT posts.*, categories.cat_name FROM posts RIGHT JOIN categories ON posts.post_cat_id=categories.cat_id WHERE post_id={$post_id} LIMIT 1;";
+	$sql = "SELECT posts.*, categories.cat_name, users.user_name AS post_author FROM posts INNER JOIN categories ON posts.post_cat_id=categories.cat_id INNER JOIN users ON posts.post_author_id=users.user_id WHERE post_id={$post_id} LIMIT 1;";
 	$result = $conn->query($sql);
 	if($result->num_rows > 0) {
 		$retArray = $result->fetch_all(MYSQLI_ASSOC);
