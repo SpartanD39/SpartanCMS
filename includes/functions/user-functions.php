@@ -421,7 +421,7 @@ EOB;
     <td>{$user["user_role"]}</td>
     <td>{$user["user_reg_status"]}</td>
 EOB;
-  if($_SESSION["user_role"] == "super-admin") {
+  if($_SESSION["user_role"] == "super-admin" || $_SESSION["user_id"] == $user["user_id"]) {
     echo "<td><a href=\"/admin/admin-users.php?action=updateStatus&uid={$user["user_id"]}&status={$user["user_reg_status"]}\">Change Status</a></td>";
     echo "<td><a href=\"/admin/admin-users.php?action=manage&uid={$user["user_id"]}\">Manage</a></td>";
   }
