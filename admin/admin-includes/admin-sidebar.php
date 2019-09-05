@@ -38,7 +38,7 @@ fa-caret-down"></i></a>
 fa-caret-down"></i></a>
                         <ul id="users_dropdown" class="collapse">
 							<li>
-                                <a href="admin-profile.php"><i class="fa fa-fw fa-user"></i> Profile</a>
+                                <a href="admin-users.php?action=view&uid=<?php echo $_SESSION["user_id"];?>"><i class="fa fa-fw fa-user"></i> Profile</a>
                             </li>
                             <li>
                                 <a href="admin-users.php"><i class="fa fa-fw fa-users"></i> View All Users</a>
