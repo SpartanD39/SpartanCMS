@@ -104,7 +104,6 @@ function get_post_comments($post_id) {
 	$retArray = [];
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	$post_id = clean_input($post_id);
-	$post_id = $conn->real_escape_string($post_id);
 	$sql = "SELECT * from comments where comment_post_id={$post_id} AND comment_status='approved' ORDER BY comment_id DESC;";
 	$result = $conn->query($sql);
 	if($result->num_rows > 0) {

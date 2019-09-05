@@ -84,10 +84,9 @@ EOT;
 * @return array
 */
 function get_single_post($post_id) {
-    $retArray = [];
+  $retArray = [];
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	$post_id = clean_input($post_id);
-	$post_id = $conn->real_escape_string($post_id);
 	$sql = "SELECT posts.*, categories.cat_name, users.user_name AS post_author FROM posts INNER JOIN categories ON posts.post_cat_id=categories.cat_id INNER JOIN users ON posts.post_author_id=users.user_id WHERE post_id={$post_id} LIMIT 1;";
 	$result = $conn->query($sql);
 	if($result->num_rows > 0) {
@@ -112,7 +111,6 @@ function get_posts_by_cat($cat_id) {
 	$retArray = [];
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	$cat_id = clean_input($cat_id);
-	$cat_id = $conn->real_escape_string($cat_id);
 	$sql = "SELECT posts.*, categories.cat_name, users.user_name AS post_author FROM posts INNER JOIN categories ON posts.post_cat_id=categories.cat_id INNER JOIN users ON posts.post_author_id=users.user_id WHERE post_cat_id={$cat_id} AND post_status='public';";
 	$result = $conn->query($sql);
 	if($result->num_rows > 0) {
@@ -230,16 +228,16 @@ function create_post($post_complete) {
 	$retArray = [];
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	//Clean up and create our internal variables to insert.
-  $post_cat_id = $conn->real_escape_string(clean_input($post_complete["post_cat_id"]));
-	$post_title = $conn->real_escape_string(clean_input($post_complete["post_title"]));
-	$post_author_id = $conn->real_escape_string(clean_input($post_complete["post_author_id"]));
-	$post_date = $conn->real_escape_string(clean_input($post_complete["post_date"]));
-	$post_image = $conn->real_escape_string(clean_input($post_complete["post_image"]));
-	$post_content = $conn->real_escape_string(clean_input($post_complete["post_content"]));
-	$post_comment_count = $conn->real_escape_string(clean_input($post_complete["post_comment_count"]));
-	$post_tags = $conn->real_escape_string(clean_input($post_complete["post_tags"]));
-	$post_status = $conn->real_escape_string(clean_input($post_complete["post_status"]));
-	$post_comment_status = $conn->real_escape_string(clean_input($post_complete["post_comment_status"]));
+  $post_cat_id = clean_input($post_complete["post_cat_id"]);
+	$post_title = clean_input($post_complete["post_title"]);
+	$post_author_id = clean_input($post_complete["post_author_id"]);
+	$post_date = clean_input($post_complete["post_date"]);
+	$post_image = clean_input($post_complete["post_image"]);
+	$post_content = clean_input($post_complete["post_content"]);
+	$post_comment_count = clean_input($post_complete["post_comment_count"]);
+	$post_tags = clean_input($post_complete["post_tags"]);
+	$post_status = clean_input($post_complete["post_status"]);
+	$post_comment_status = clean_input($post_complete["post_comment_status"]);
 
 	$sql = "INSERT INTO posts (post_cat_id, post_title, post_author_id, post_date, post_image, post_content, post_comment_count, post_tags, post_status, post_comment_status) VALUES ('{$post_cat_id}','{$post_title}','{$post_author_id}','{$post_date}','{$post_image}','{$post_content}','{$post_comment_count}','{$post_tags}','{$post_status}','{$post_comment_status}');";
 	$result = $conn->query($sql);
@@ -267,16 +265,16 @@ function edit_post($post_complete) {
     $retArray = [];
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	//Clean up and create our internal variables to insert.
-	$post_id = $conn->real_escape_string(clean_input($post_complete["post_id"]));
-  $post_cat_id = $conn->real_escape_string(clean_input($post_complete["post_cat_id"]));
-	$post_title = $conn->real_escape_string(clean_input($post_complete["post_title"]));
-	$post_author_id = $conn->real_escape_string(clean_input($post_complete["post_author_id"]));
-	$post_date = $conn->real_escape_string(clean_input($post_complete["post_date"]));
-	$post_image = $conn->real_escape_string(clean_input($post_complete["post_image"]));
-	$post_content = $conn->real_escape_string(clean_input($post_complete["post_content"]));
-	$post_comment_status = $conn->real_escape_string(clean_input($post_complete["post_comment_status"]));
-	$post_tags = $conn->real_escape_string(clean_input($post_complete["post_tags"]));
-	$post_status = $conn->real_escape_string(clean_input($post_complete["post_status"]));
+	$post_id = clean_input($post_complete["post_id"]);
+  $post_cat_id = clean_input($post_complete["post_cat_id"]);
+	$post_title = clean_input($post_complete["post_title"]);
+	$post_author_id = clean_input($post_complete["post_author_id"]);
+	$post_date = clean_input($post_complete["post_date"]);
+	$post_image = clean_input($post_complete["post_image"]);
+	$post_content = clean_input($post_complete["post_content"]);
+	$post_comment_status = clean_input($post_complete["post_comment_status"]);
+	$post_tags = clean_input($post_complete["post_tags"]);
+	$post_status = clean_input($post_complete["post_status"]);
 
 	$sql = "UPDATE posts SET post_cat_id='{$post_cat_id}',post_title='{$post_title}',post_author_id='{$post_author_id}',post_date='{$post_date}',post_content='{$post_content}',post_tags='{$post_tags}',post_status='{$post_status}', post_comment_status='{$post_comment_status}'";
 
@@ -311,7 +309,7 @@ function delete_post($post_id) {
 	$retArray = [];
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	//Clean up and create our internal variables to insert.
-	$post_id = $conn->real_escape_string(clean_input($post_id));
+	$post_id = clean_input($post_id);
     $sql = "DELETE FROM posts WHERE post_id = {$post_id}";
 	$result = $conn->query($sql);
 	if($result === TRUE) {

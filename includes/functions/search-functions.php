@@ -6,7 +6,7 @@ function doSearch($searchterm) {
 		$retArray["FAILED"] = 1;
 	} else {
 		$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-		$searchterm = $conn->real_escape_string($searchterm);
+		$searchterm = clean_input($searchterm);
 		$sql = "SELECT post_title, post_author, post_content, post_date, post_id FROM posts WHERE post_tags LIKE '%$searchterm%' AND post_status='public';";
 		$result = $conn->query($sql);
 		if($result->num_rows > 0) {
@@ -31,13 +31,13 @@ function displaySearch($searchResults) {
 				echo "<h2>";
 				echo "<a href=\"#\">{$result["post_title"]}</a>";
 				echo "</h2>";
-					
+
 				echo "<p class=\"lead\">";
 				echo "by <a href=\"index.php\">{$result["post_author"]}</a>";
 				echo "</p>";
-					
+
 				echo "<p><span class=\"glyphicon glyphicon-time\"></span> Posted on {$result["post_date"]}</p>";
-					
+
 				echo "<a class=\"btn btn-primary\" href=\"#\">Read More <span class=\"glyphicon glyphicon-chevron-right\"></span></a>";
 				echo "<hr/>";
 		}
