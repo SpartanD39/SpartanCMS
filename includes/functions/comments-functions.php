@@ -3,7 +3,13 @@
 function admin_get_comments() {
 	$retArray = [];
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-	$sql = "SELECT comments.*, posts.post_title FROM comments LEFT JOIN posts ON comments.comment_post_id=posts.post_id ORDER BY comments.comment_id DESC";
+
+	if($_SESSION["user_role"] == "super-admin" || $_SESSION["user_role"] == "moderator") {
+		$sql = "SELECT comments.*, posts.post_title FROM comments LEFT JOIN posts ON comments.comment_post_id=posts.post_id ORDER BY comments.comment_id DESC";
+	} else {
+		$sql= "SELECT comments.*, posts.post_title FROM comments LEFT JOIN posts ON comments.comment_post_id=posts.post_id WHERE posts.post_author_id={$_SESSION["user_id"]} ORDER BY comments.comment_id DESC";
+	}
+
 	$result = $conn->query($sql);
 	if($result->num_rows > 0) {
 		$retArray = $result->fetch_all(MYSQLI_ASSOC);

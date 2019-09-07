@@ -4,17 +4,18 @@
 if(isset($_GET['id'])) {
 	$post_id = $_GET['id'];
 	$post = get_single_post($post_id);
+	print_r($post);
 } else {
-	$post[0]["post_id"] = "";
-	$post[0]["post_author"] = "";
-	$post[0]["post_cat_id"] = "";
-	$post[0]["post_title"] = "";
-	$post[0]["post_image"] = "";
-	$post[0]["post_content"] = "";
-	$post[0]["post_tags"] = "";
-	$post[0]["post_status"] = "";
-	$post[0]["post_comment_status"] = "";
-	$post[0]["cat_name"] = "";
+	$post["post_id"] = "";
+	$post["post_author"] = "";
+	$post["post_cat_id"] = "";
+	$post["post_title"] = "";
+	$post["post_image"] = "";
+	$post["post_content"] = "";
+	$post["post_tags"] = "";
+	$post["post_status"] = "";
+	$post["post_comment_status"] = "";
+	$post["cat_name"] = "";
 }
 
 if(isset($_POST["editPost"])) {
@@ -23,6 +24,7 @@ if(isset($_POST["editPost"])) {
 	$post_complete["post_cat_id"] = $_POST["post_cat_id"];
 	$post_complete["post_title"] = $_POST["post_title"];
 	$post_complete["post_author"] = $_POST["post_author"];
+	$post_complete["post_author_id"] = $_SESSION["user_id"];
 	$post_complete["post_date"] = date('d-m-y H:i');
 	$post_image_name = $_FILES['post_image']['name'];
 	$post_image_temp_name = $_FILES['post_image']['tmp_name'];
@@ -52,16 +54,16 @@ if(isset($_POST["editPost"])) {
 
 <div class="form-group">
 	<label for="post_author">Author:</label>
-	<input type="text" class="form-control" id="post_author" name="post_author" value="<?php echo $post[0]["post_author"];?>" disabled>
+	<input type="text" class="form-control" id="post_author" name="post_author" value="<?php echo $post["post_author"];?>" disabled>
 </div>
 
 <div class="form-group">
-	<select class="form-control" id="post_cat_id" name="post_cat_id" value="<?php echo $post[0]["post_cat_id"];?>">
+	<select class="form-control" id="post_cat_id" name="post_cat_id" value="<?php echo $post["post_cat_id"];?>">
 		<?php
 		$categories = get_categories();
 		foreach($categories as $category) {
 			echo "<option value=\"{$category["cat_id"]}\"";
-			if($post[0]["post_cat_id"] == $category["cat_id"]) {
+			if($post["post_cat_id"] == $category["cat_id"]) {
 				echo "selected";
 			}
 			echo ">{$category["cat_name"]}</option>";
@@ -72,31 +74,31 @@ if(isset($_POST["editPost"])) {
 
 <div class="form-group">
 	<label for="post_title">Title:</label>
-	<input type="text" class="form-control" id="post_title" name="post_title" value="<?php echo $post[0]["post_title"];?>">
+	<input type="text" class="form-control" id="post_title" name="post_title" value="<?php echo $post["post_title"];?>">
 </div>
 
 <div class="form-group">
 	<label for="post_image">Image:</label>
-	<input type="file" class="form-control-file" id="post_image" name="post_image" value="<?php echo $post[0]["post_image"];?>">
+	<input type="file" class="form-control-file" id="post_image" name="post_image" value="<?php echo $post["post_image"];?>">
 </div>
 
 <div class="form-group">
 	<label for="post_content">Have at it!</label>
 	<textarea class="form-control" id="post_content" name="post_content" rows="15" style="max-width:1500px;">
-	<?php echo $post[0]["post_content"];?>
+	<?php echo $post["post_content"];?>
 	</textarea>
 </div>
 
 <div class="form-group">
 	<label for="post_tags">Tags:</label>
-	<input type="text" class="form-control" id="post_tags" name="post_tags" value="<?php echo $post[0]["post_tags"];?>">
+	<input type="text" class="form-control" id="post_tags" name="post_tags" value="<?php echo $post["post_tags"];?>">
 </div>
 
 <div class="form-group">
 	<label for="post_status">Private or Public:</label>
-	<select class="form-control" id="post_status" name="post_status" selected="<?php echo $post[0]["post_status"];?>">
-		<option value="private" <?php if($post[0]["post_status"] == "private") {echo "selected";}?> >Private</option>
-		<option value="public" <?php if($post[0]["post_status"] == "public") {echo "selected";}?>>Public</option>
+	<select class="form-control" id="post_status" name="post_status" selected="<?php echo $post["post_status"];?>">
+		<option value="private" <?php if($post["post_status"] == "private") {echo "selected";}?> >Private</option>
+		<option value="public" <?php if($post["post_status"] == "public") {echo "selected";}?>>Public</option>
 	</select>
 	<small id="statusHelp" class="form-text text-muted">Private means visible only to you through the admin panel.</small>
 </div>
@@ -104,12 +106,12 @@ if(isset($_POST["editPost"])) {
 <div class="form-group">
 	<label for="post_comment_status">Post comments:</label>
 	<select class="form-control" id="post_comment_status" name="post_comment_status">
-		<option value="disabled" <?php if($post[0]["post_comment_status"] == "disabled") {echo "selected";}?> >Disabled</option>
-		<option value="enabled" <?php if($post[0]["post_comment_status"] == "enabled") {echo "selected";}?>>Enabled</option>
+		<option value="disabled" <?php if($post["post_comment_status"] == "disabled") {echo "selected";}?> >Disabled</option>
+		<option value="enabled" <?php if($post["post_comment_status"] == "enabled") {echo "selected";}?>>Enabled</option>
 	</select>
 </div>
 
-<input type="hidden" id="post_id" name="post_id" value="<?php echo $post[0]["post_id"]; ?>">
+<input type="hidden" id="post_id" name="post_id" value="<?php echo $post["post_id"]; ?>">
 
 <button class="btn btn-default" type="submit" name="editPost" value="editPost">Update post</button>
 

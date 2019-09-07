@@ -90,7 +90,7 @@ function get_single_post($post_id) {
 	$sql = "SELECT posts.*, categories.cat_name, users.user_name AS post_author FROM posts INNER JOIN categories ON posts.post_cat_id=categories.cat_id INNER JOIN users ON posts.post_author_id=users.user_id WHERE post_id={$post_id} LIMIT 1;";
 	$result = $conn->query($sql);
 	if($result->num_rows > 0) {
-		$retArray = $result->fetch_all(MYSQLI_ASSOC);
+		$retArray = $result->fetch_assoc();
 	} else {
 		$retArray = [];
 	}
@@ -165,43 +165,42 @@ EOT;
 */
 function display_single_post($post_id) {
 	$post = get_single_post($post_id);
-	forEach($post as $post_data) {
-		if($post_data["post_status"] == "private") {
+		if($post["post_status"] == "private") {
 			header("Location: /index.php");
 		}
-		$post_data["post_date"] = date('d-m-y H:i',strtotime($post_data["post_date"]));
-		$post_data["post_content"] = htmlspecialchars_decode($post_data["post_content"]);
+		$post["post_date"] = date('d-m-y H:i',strtotime($post["post_date"]));
+		$post["post_content"] = htmlspecialchars_decode($post["post_content"]);
 		echo<<<EOT
                 <!-- Blog Post -->
 
                 <!-- Title -->
-                <h1>{$post_data["post_title"]}</h1>
+                <h1>{$post["post_title"]}</h1>
 
                 <!-- Author -->
                 <p class="lead">
-                    by <a href="#">{$post_data["post_author"]}</a>
+                    by <a href="#">{$post["post_author"]}</a>
                 </p>
 
                 <hr>
 
                 <!-- Date/Time -->
-                <p><span class="glyphicon glyphicon-time"></span> Posted on {$post_data["post_date"]}</p>
+                <p><span class="glyphicon glyphicon-time"></span> Posted on {$post["post_date"]}</p>
 
                 <hr>
 
                 <!-- Preview Image -->
-                <img class="img-responsive img-thumbnail" src="uploads/images/{$post_data["post_image"]}" alt="">
+                <img class="img-responsive img-thumbnail" src="uploads/images/{$post["post_image"]}" alt="">
 
                 <hr>
 
                 <!-- Post Content -->
                 <div id="post_content">
-					{$post_data["post_content"]}
+					{$post["post_content"]}
 				</div>
 
                 <hr>
 EOT;
-		if($post_data["post_comment_status"] == "enabled") {
+		if($post["post_comment_status"] == "enabled") {
 			include("includes/post-comment.php");
 		} else {
 			echo<<<EOT
@@ -212,7 +211,7 @@ EOT;
 
 EOT;
 		}
-	}
+
 }
 
 /**
