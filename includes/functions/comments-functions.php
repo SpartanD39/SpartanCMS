@@ -154,6 +154,13 @@ function add_post_comment($commentdata) {
 	$comment["comment_author_ip"] = clean_input(get_client_ip());
 	$comment["comment_content"] = clean_input($comment["comment_content"]);
 	$comment["status"] = "pending";
+	$comment["captcha_challenge"]  = clean_input($comment["captcha_challenge"]);
+
+	if(!validate_captcha($comment["captcha_challenge"])) {
+		$retArray["status"] = 0;
+		$retArray["message"] = "<div class=\"alert alert-danger alert-dismissible show\" role=\"alert\"> Invalid CAPTCHA value! <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span>  </button> </div><div class=\"alert alert-danger alert-dismissible show\" role=\"alert\">Error!" . $sql . "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span>  </button> </div><br/>";
+		return $retArray;
+	}
 
 	$stmt = $conn->prepare("INSERT INTO comments (comment_post_id, comment_date, comment_author, comment_email, comment_author_ip, comment_content,comment_status) VALUES (?, ?, ?, ?, ?, ?, ?)");
 	$stmt->bind_param("issssss", $comment["post_id"], $comment["date"], $comment["comment_author"], $comment["comment_email"], $comment["comment_author_ip"], $comment["comment_content"], $comment["status"] );
@@ -226,5 +233,16 @@ function generate_captcha() {
   imagepng($image);
   imagedestroy($image);
   return $captcha_string;
+}
+
+function validate_captcha($inputString) {
+	if($inputString != $_SESSION["captcha_text"]) {
+		$retVal = FALSE;
+	} else {
+		$retVal = TRUE;
+	}
+
+	return $retVal;
+
 }
 ?>
