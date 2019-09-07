@@ -1,5 +1,4 @@
 <?php
-$captcha = 'generate_captcha';
 echo<<<EOT
 <div class="well">
 	<span id="submitstatus" role="alert"></span>

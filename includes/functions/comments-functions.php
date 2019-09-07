@@ -209,7 +209,7 @@ function generate_captcha() {
   $white = imagecolorallocate($image, 255, 255, 255);
   $textcolors = [$black, $white];
 
-  $fonts = '..\fonts\UbuntuMono-R.ttf';
+  $fonts = BASE_DIR .'fonts/UbuntuMono-R.ttf';
 
   $permitted_chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   $string_length = 6;
