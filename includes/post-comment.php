@@ -1,5 +1,4 @@
 <?php
-$captcha = 'generate_captcha';
 echo<<<EOT
 <div class="well">
 	<span id="submitstatus" role="alert"></span>
@@ -23,6 +22,12 @@ echo<<<EOT
 			<br/>
 		</div>
 
+		<label for="captcha">Please verify you are not a bot...</label>
+		<br />
+		<img src="/includes/captcha.php" alt="CAPTCHA" class="captcha-image" /> <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-refresh"></span></button>
+		<br />
+		<br />
+    <input type="text" id="captcha_challenge" name="captcha_challenge" pattern="[A-Z]{6}">
 		<button type="submit" class="btn btn-primary">Submit</button>
 
 	</form>

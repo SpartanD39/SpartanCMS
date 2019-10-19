@@ -42,6 +42,11 @@ include("admin-includes/admin-sidebar.php");
 						$currentStatus = $_GET["status"];
 						$updateTask = admin_change_user_status($uid, $currentStatus);
 						echo $updateTask ["message"];
+						break;
+
+					case "view":
+						include("admin-includes/admin-view-profile.php");
+						break;
 
           default:
             admin_display_users();

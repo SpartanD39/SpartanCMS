@@ -20,7 +20,6 @@ function get_category($cat_id) {
 	$retArray = [];
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	$cat_id = clean_input($cat_id);
-	$cat_id = $conn->real_escape_string($cat_id);
 	$sql = "SELECT * FROM categories where cat_id={$cat_id}";
 	$result = $conn->query($sql);
 	if($result->num_rows > 0) {
@@ -39,7 +38,6 @@ function add_category($cat_name) {
 	$retArray = [];
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	$cat_name = clean_input($cat_name);
-	$cat_name = $conn->real_escape_string($cat_name);
 	$sql = "INSERT INTO categories (cat_id, cat_name) VALUES (NULL, '".$cat_name."');";
 	$result = $conn->query($sql);
 	if($result === TRUE) {
@@ -57,7 +55,6 @@ function delete_category($cat_id) {
 	$retArray = [];
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	$cat_id = clean_input($cat_id);
-	$cat_id = $conn->real_escape_string($cat_id);
 	$sql = "DELETE FROM categories WHERE cat_id = '".$cat_id."'";
 	$result = $conn->query($sql);
 	if($result === TRUE) {
@@ -75,9 +72,7 @@ function update_category($cat_id, $newname) {
 	$retArray = [];
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	$cat_id = clean_input($cat_id);
-	$cat_id = $conn->real_escape_string($cat_id);
 	$newname = clean_input($newname);
-	$newname = $conn->real_escape_string($newname);
 	$sql = "UPDATE categories SET cat_name='{$newname}' WHERE cat_id={$cat_id}";
 	$result = $conn->query($sql);
 	if($result === TRUE) {

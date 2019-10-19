@@ -25,14 +25,14 @@ if(isset($_GET["removeInstaller"]) && $_GET["removeInstaller"] == "true") {
 	rmdir($installDir);
 }
 if(isset($_POST["doInstaller"])) {
-
+  
 	function clean_input($data) {
 		$data = trim($data);
 		$data = stripslashes($data);
 		$data = htmlspecialchars($data);
 		return $data;
 	}
-
+  
 	$DB_USER = clean_input($_POST["dbUser"]);
 	$DB_PASS = clean_input($_POST["dbPass"]);
 	$DB_NAME = clean_input($_POST["dbName"]);
@@ -45,27 +45,23 @@ if(isset($_POST["doInstaller"])) {
 	$user_avatar = "profile_placeholder300x300.png";
 	$user_role = "super-admin";
 	$user_reg_status = "active";
-
 	$conn = new mysqli($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
-
 	$_CREATE_TABLES_SQL =<<<EOSQL
 START TRANSACTION;
 SET time_zone = "+00:00";
-
 --
 -- Table structure for table `categories`
 --
-
 CREATE TABLE `categories` (
   `cat_id` int(3) NOT NULL,
   `cat_name` varchar(128) COLLATE utf8_bin NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
-
 --
 -- Table structure for table `comments`
 --
+-- --------------------------------------------------------
 
 CREATE TABLE `comments` (
   `comment_id` int(3) NOT NULL,
@@ -79,11 +75,10 @@ CREATE TABLE `comments` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
-
 --
 -- Table structure for table `posts`
 --
-
+-- --------------------------------------------------------
 CREATE TABLE `posts` (
   `post_id` int(3) NOT NULL,
   `post_cat_id` int(3) NOT NULL,
@@ -97,12 +92,11 @@ CREATE TABLE `posts` (
   `post_status` varchar(32) COLLATE utf8_bin NOT NULL,
   `post_comment_status` varchar(16) COLLATE utf8_bin NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
 -- --------------------------------------------------------
-
 --
 -- Table structure for table `site_meta`
 --
+-- --------------------------------------------------------
 
 CREATE TABLE `site_meta` (
   `site_opt_name` varchar(255) COLLATE utf8_bin NOT NULL,
@@ -110,10 +104,10 @@ CREATE TABLE `site_meta` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
-
 --
 -- Table structure for table `users`
 --
+-- --------------------------------------------------------
 
 CREATE TABLE `users` (
   `user_id` int(3) NOT NULL,
@@ -129,7 +123,7 @@ CREATE TABLE `users` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Indexes for dumped tables
+-- Indexes for tables
 --
 
 --
@@ -157,7 +151,7 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`user_id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT for tables
 --
 
 --
@@ -213,9 +207,7 @@ if ($conn->multi_query($_CREATE_TABLES_SQL)) {
 
 	$conn->close();
 	$conn = new mysqli($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
-
-
-	$_CREATE_USER_SQL = "INSERT INTO users (user_name, user_email, user_pass, user_date_reg, user_avatar, user_role, user_reg_status) VALUES ('{$user_name}','{$user_email}','{$user_pass}','{$user_date_reg}','{$user_avatar}','{$user_role}','{$user_reg_status}')";
+	$_CREATE_USER_SQL = "INSERT INTO users (user_name, user_email, user_pass, user_date_reg, user_avatar, user_tagline, user_bio, user_role, user_reg_status) VALUES ('{$user_name}','{$user_email}','{$user_pass}','{$user_date_reg}','{$user_avatar}','','','{$user_role}','{$user_reg_status}')";
 
 	if($conn->query($_CREATE_USER_SQL) === TRUE) {
 		echo<<<EOH
@@ -223,7 +215,6 @@ if ($conn->multi_query($_CREATE_TABLES_SQL)) {
 		<div class="row">
 
 			<div class="col-md-3">
-
 			</div>
 
 			<div class="col-md-6">
@@ -233,9 +224,7 @@ if ($conn->multi_query($_CREATE_TABLES_SQL)) {
 			</div>
 
 			<div class="col-md-3">
-
 			</div>
-
 		</div>
 EOH;
 
@@ -256,6 +245,19 @@ EOF;
 		echo<<<EOH
 		<div class="row">
 
+			<div class="col-md-3">
+			</div>
+			<div class="col-md-6">
+				<div class="alert alert-danger" role="alert">
+					Table setup failed:
+				</div>
+				<div class="alert alert-danger" role="alert">
+					{$conn->error}
+				</div>
+				<div class="alert alert-danger" role="alert">
+					Please report this issue to the dev!.
+				</div>
+			</div>
 			<div class="col-md-3">
 
 			</div>
@@ -280,14 +282,12 @@ EOF;
 EOH;
 	}
 
-
 } else {
     echo "Error creating table: " . $conn->error;
 	echo<<<EOH
 	<div class="row">
 
 		<div class="col-md-3">
-
 		</div>
 
 		<div class="col-md-6">
@@ -303,11 +303,8 @@ EOH;
 		</div>
 
 		<div class="col-md-3">
-
 		</div>
-
 	</div>
-
 EOH;
 }
 
@@ -472,10 +469,10 @@ EOH;
 								<label for="user_name">Admin Username</label>
 								<input type="text" class="form-control" id="user_name" name="user_name" aria-describedby="user_name-help" required>
 								<small id="user_name-help" class="form-text text-muted">Your name</small>
-
 							</div>
 
 							<div class="form-group">
+
 
 								<label for="user_email">Admin Email</label>
 								<input type="email" class="form-control" id="user_email" name="user_email" aria-describedby="user_email-help" required>
@@ -492,6 +489,7 @@ EOH;
 							</div>
 
 							<div class="form-group">
+
 
 								<label for="user_password_confirm">Confirm your password</label>
 								<input type="password" class="form-control" id="user_password_confirm" name="user_password_confirm" aria-describedby="user_password_confirm-help" required>
@@ -545,7 +543,6 @@ EOH;
 				var password = $("#user_password").val();
 				var password_confirm = $("#user_password_confirm").val();
 				var retval = false;
-
 				if(password != password_confirm) {
 					alert('Passwords do not match');
 					retval = false;

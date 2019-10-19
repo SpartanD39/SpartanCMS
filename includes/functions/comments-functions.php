@@ -3,7 +3,13 @@
 function admin_get_comments() {
 	$retArray = [];
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-	$sql = "SELECT comments.*, posts.post_title FROM comments LEFT JOIN posts ON comments.comment_post_id=posts.post_id ORDER BY comments.comment_id DESC";
+
+	if($_SESSION["user_role"] == "super-admin" || $_SESSION["user_role"] == "moderator") {
+		$sql = "SELECT comments.*, posts.post_title FROM comments LEFT JOIN posts ON comments.comment_post_id=posts.post_id ORDER BY comments.comment_id DESC";
+	} else {
+		$sql= "SELECT comments.*, posts.post_title FROM comments LEFT JOIN posts ON comments.comment_post_id=posts.post_id WHERE posts.post_author_id={$_SESSION["user_id"]} ORDER BY comments.comment_id DESC";
+	}
+
 	$result = $conn->query($sql);
 	if($result->num_rows > 0) {
 		$retArray = $result->fetch_all(MYSQLI_ASSOC);
@@ -104,7 +110,6 @@ function get_post_comments($post_id) {
 	$retArray = [];
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	$post_id = clean_input($post_id);
-	$post_id = $conn->real_escape_string($post_id);
 	$sql = "SELECT * from comments where comment_post_id={$post_id} AND comment_status='approved' ORDER BY comment_id DESC;";
 	$result = $conn->query($sql);
 	if($result->num_rows > 0) {
@@ -149,6 +154,13 @@ function add_post_comment($commentdata) {
 	$comment["comment_author_ip"] = clean_input(get_client_ip());
 	$comment["comment_content"] = clean_input($comment["comment_content"]);
 	$comment["status"] = "pending";
+	$comment["captcha_challenge"]  = clean_input($comment["captcha_challenge"]);
+
+	if(!validate_captcha($comment["captcha_challenge"])) {
+		$retArray["status"] = 0;
+		$retArray["message"] = "<div class=\"alert alert-danger alert-dismissible show\" role=\"alert\"> Invalid CAPTCHA value! <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span>  </button> </div><div class=\"alert alert-danger alert-dismissible show\" role=\"alert\">Error!" . $sql . "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span>  </button> </div><br/>";
+		return $retArray;
+	}
 
 	$stmt = $conn->prepare("INSERT INTO comments (comment_post_id, comment_date, comment_author, comment_email, comment_author_ip, comment_content,comment_status) VALUES (?, ?, ?, ?, ?, ?, ?)");
 	$stmt->bind_param("issssss", $comment["post_id"], $comment["date"], $comment["comment_author"], $comment["comment_email"], $comment["comment_author_ip"], $comment["comment_content"], $comment["status"] );
@@ -204,7 +216,7 @@ function generate_captcha() {
   $white = imagecolorallocate($image, 255, 255, 255);
   $textcolors = [$black, $white];
 
-  $fonts = '..\fonts\UbuntuMono-R.ttf';
+  $fonts = BASE_DIR .'fonts/UbuntuMono-R.ttf';
 
   $permitted_chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   $string_length = 6;
@@ -221,5 +233,16 @@ function generate_captcha() {
   imagepng($image);
   imagedestroy($image);
   return $captcha_string;
+}
+
+function validate_captcha($inputString) {
+	if($inputString != $_SESSION["captcha_text"]) {
+		$retVal = FALSE;
+	} else {
+		$retVal = TRUE;
+	}
+
+	return $retVal;
+
 }
 ?>
