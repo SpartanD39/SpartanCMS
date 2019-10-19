@@ -4,7 +4,6 @@
 if(isset($_GET['id'])) {
 	$post_id = $_GET['id'];
 	$post = get_single_post($post_id);
-	print_r($post);
 } else {
 	$post["post_id"] = "";
 	$post["post_author"] = "";
@@ -50,7 +49,7 @@ if(isset($_POST["editPost"])) {
 
 ?>
 
-<form action="" method="POST" enctype="multipart/form-data">
+<form action="" method="POST" enctype="multipart/form-data" id="postEditForm">
 
 <div class="form-group">
 	<label for="post_author">Author:</label>
@@ -117,6 +116,7 @@ if(isset($_POST["editPost"])) {
 
 </form>
 </div>
-<!---nice--->
-<script type="text/javascript" src="admin-includes/tinymce/js/tinymce/tinymce.min.js"></script>
-<script type="text/javascript" src="js/admin-edit.js"></script>
+
+    <!-- TinyMCE -->
+    <script type="text/javascript" src="admin-includes/tinymce/js/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript" src="js/admin-edit.js"></script>
