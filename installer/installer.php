@@ -25,16 +25,19 @@ if(isset($_GET["removeInstaller"]) && $_GET["removeInstaller"] == "true") {
 	rmdir($installDir);
 }
 if(isset($_POST["doInstaller"])) {
+  
 	function clean_input($data) {
 		$data = trim($data);
 		$data = stripslashes($data);
 		$data = htmlspecialchars($data);
 		return $data;
 	}
+  
 	$DB_USER = clean_input($_POST["dbUser"]);
 	$DB_PASS = clean_input($_POST["dbPass"]);
 	$DB_NAME = clean_input($_POST["dbName"]);
 	$DB_HOST = clean_input($_POST["dbHost"]);
+
 	$user_name = clean_input($_POST["user_name"]);
 	$user_email = clean_input($_POST["user_email"]);
 	$user_pass = password_hash(clean_input($_POST["user_password"]),PASSWORD_DEFAULT);
@@ -53,10 +56,13 @@ CREATE TABLE `categories` (
   `cat_id` int(3) NOT NULL,
   `cat_name` varchar(128) COLLATE utf8_bin NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
 -- --------------------------------------------------------
 --
 -- Table structure for table `comments`
 --
+-- --------------------------------------------------------
+
 CREATE TABLE `comments` (
   `comment_id` int(3) NOT NULL,
   `comment_post_id` int(3) NOT NULL,
@@ -67,10 +73,12 @@ CREATE TABLE `comments` (
   `comment_content` tinytext COLLATE utf8_bin NOT NULL,
   `comment_status` varchar(32) COLLATE utf8_bin NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
 -- --------------------------------------------------------
 --
 -- Table structure for table `posts`
 --
+-- --------------------------------------------------------
 CREATE TABLE `posts` (
   `post_id` int(3) NOT NULL,
   `post_cat_id` int(3) NOT NULL,
@@ -88,14 +96,19 @@ CREATE TABLE `posts` (
 --
 -- Table structure for table `site_meta`
 --
+-- --------------------------------------------------------
+
 CREATE TABLE `site_meta` (
   `site_opt_name` varchar(255) COLLATE utf8_bin NOT NULL,
   `site_opt_value` varchar(255) COLLATE utf8_bin NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
 -- --------------------------------------------------------
 --
 -- Table structure for table `users`
 --
+-- --------------------------------------------------------
+
 CREATE TABLE `users` (
   `user_id` int(3) NOT NULL,
   `user_name` varchar(255) COLLATE utf8_bin NOT NULL,
@@ -108,54 +121,66 @@ CREATE TABLE `users` (
   `user_role` varchar(255) COLLATE utf8_bin NOT NULL,
   `user_reg_status` varchar(255) COLLATE utf8_bin NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
 --
--- Indexes for dumped tables
+-- Indexes for tables
 --
+
 --
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`cat_id`);
+
 --
 -- Indexes for table `comments`
 --
 ALTER TABLE `comments`
   ADD PRIMARY KEY (`comment_id`);
+
 --
 -- Indexes for table `posts`
 --
 ALTER TABLE `posts`
   ADD PRIMARY KEY (`post_id`);
+
 --
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`user_id`);
+
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT for tables
 --
+
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
   MODIFY `cat_id` int(3) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
   MODIFY `comment_id` int(3) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
   MODIFY `post_id` int(3) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `user_id` int(3) NOT NULL AUTO_INCREMENT;
+
 COMMIT;
 EOSQL;
+
 /*
 $_CREATE_TABLES_SQL = 'START TRANSACTION';
 $_CREATE_TABLES_SQL = 'CREATE TABLE categories (`cat_id` INT(3) NOT NULL,`cat_name` VARCHAR(128) NOT NULL) ENGINE=MyISAM;';
@@ -172,30 +197,37 @@ $_CREATE_TABLES_SQL .= 'COMMIT;';
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
 if ($conn->multi_query($_CREATE_TABLES_SQL)) {
 	do {
 		if($result = $conn->store_result() && $result === true) {
 			$result->free();
 		}
 	} while ($conn->next_result());
+
 	$conn->close();
 	$conn = new mysqli($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
 	$_CREATE_USER_SQL = "INSERT INTO users (user_name, user_email, user_pass, user_date_reg, user_avatar, user_tagline, user_bio, user_role, user_reg_status) VALUES ('{$user_name}','{$user_email}','{$user_pass}','{$user_date_reg}','{$user_avatar}','','','{$user_role}','{$user_reg_status}')";
+
 	if($conn->query($_CREATE_USER_SQL) === TRUE) {
 		echo<<<EOH
 		<br/>
 		<div class="row">
+
 			<div class="col-md-3">
 			</div>
+
 			<div class="col-md-6">
 				<div class="alert alert-success" role="alert">
 					Tables and config file set up successfully! <a href="/installer/installer.php?removeInstaller=true">Click here to delete the installer and go to your homepage.</a>
 				</div>
 			</div>
+
 			<div class="col-md-3">
 			</div>
 		</div>
 EOH;
+
 	$cfgFile = fopen("../includes/db-config.php", "w");
 	$cfgEntry =<<<EOF
 <?php
@@ -207,10 +239,12 @@ define("DB_HOST","${DB_HOST}");
 EOF;
 	fwrite($cfgFile, $cfgEntry);
 	fclose($cfgFile);
+
 	} else {
 		echo "Error creating user: " . $conn->error;
 		echo<<<EOH
 		<div class="row">
+
 			<div class="col-md-3">
 			</div>
 			<div class="col-md-6">
@@ -225,16 +259,37 @@ EOF;
 				</div>
 			</div>
 			<div class="col-md-3">
+
 			</div>
+
+			<div class="col-md-6">
+				<div class="alert alert-danger" role="alert">
+					Table setup failed:
+				</div>
+				<div class="alert alert-danger" role="alert">
+					{$conn->error}
+				</div>
+				<div class="alert alert-danger" role="alert">
+					Please report this issue to the dev!.
+				</div>
+			</div>
+
+			<div class="col-md-3">
+
+			</div>
+
 		</div>
 EOH;
 	}
+
 } else {
     echo "Error creating table: " . $conn->error;
 	echo<<<EOH
 	<div class="row">
+
 		<div class="col-md-3">
 		</div>
+
 		<div class="col-md-6">
 			<div class="alert alert-danger" role="alert">
 				Table setup failed:
@@ -246,11 +301,13 @@ EOH;
 				<a href="/installer/installer.php">Click here after you fix the issue,</a> and retry the installer.
 			</div>
 		</div>
+
 		<div class="col-md-3">
 		</div>
 	</div>
 EOH;
 }
+
 } else {
 ?>
 
@@ -297,6 +354,7 @@ EOH;
 					<p>If anything is missing, check your php extensions with a phpinfo page, and contact your host if you're running into problems getting certain extensions loaded.</p>
 
 					<?php
+
 						$loaded_exts = get_loaded_extensions();
 						echo "<ul class=\"list-group list-group-flush\">";
 						$goodMods = [];
@@ -311,6 +369,7 @@ EOH;
 EOH;
 							array_push($goodMods, "0");
 						}
+
 						if(in_array("mysqli", $loaded_exts)) {
 							echo <<<EOH
 							<li class="list-group-item list-group-item-success">'mysqli' extension loaded.</li>
@@ -322,6 +381,7 @@ EOH;
 EOH;
 							array_push($goodMods, "0");
 						}
+
 						if(in_array("mysqlnd", $loaded_exts)) {
 							echo <<<EOH
 							<li class="list-group-item list-group-item-success">'mysqlnd' extension loaded.</li>
@@ -333,6 +393,7 @@ EOH;
 EOH;
 							array_push($goodMods, "0");
 						}
+
 						if(in_array("gd", $loaded_exts)) {
 							echo <<<EOH
 							<li class="list-group-item list-group-item-success">'gd' extension loaded.</li>
@@ -344,6 +405,7 @@ EOH;
 EOH;
 							array_push($goodMods, "0");
 						}
+
 						echo "</ul>";
 					?>
 
@@ -407,10 +469,10 @@ EOH;
 								<label for="user_name">Admin Username</label>
 								<input type="text" class="form-control" id="user_name" name="user_name" aria-describedby="user_name-help" required>
 								<small id="user_name-help" class="form-text text-muted">Your name</small>
-
 							</div>
 
 							<div class="form-group">
+
 
 								<label for="user_email">Admin Email</label>
 								<input type="email" class="form-control" id="user_email" name="user_email" aria-describedby="user_email-help" required>
@@ -427,6 +489,7 @@ EOH;
 							</div>
 
 							<div class="form-group">
+
 
 								<label for="user_password_confirm">Confirm your password</label>
 								<input type="password" class="form-control" id="user_password_confirm" name="user_password_confirm" aria-describedby="user_password_confirm-help" required>
@@ -450,6 +513,7 @@ EOH;
 
 			</div>
 <?php
+
 } // end else block for POST statement.
 ?>
 
